@@ -1,4 +1,4 @@
-import type { Answer, Citation, ConversationSummary, Evidence, ProviderChoice, QueryRequest, Source } from "./types";
+import type { Answer, AppHealth, Citation, ConversationSummary, Evidence, ProviderChoice, QueryRequest, Source } from "./types";
 
 const API_BASE = "/textbooks/api";
 
@@ -27,6 +27,16 @@ function number(...values: unknown[]): number | undefined {
 
 function array(value: unknown): unknown[] {
   return Array.isArray(value) ? value : [];
+}
+
+function historyAnswerStatus(rawStatus: string, actualProvider?: string): Answer["status"] {
+  if (rawStatus === "abstained" || rawStatus.includes("insufficient")) {
+    return actualProvider ? "provider_abstention" : "insufficient_evidence";
+  }
+  if (rawStatus === "error" || rawStatus === "provider_unavailable" || rawStatus === "retrieval_unavailable" || rawStatus === "internal_error") {
+    return "error";
+  }
+  return "answered";
 }
 
 async function request(path: string, init?: RequestInit): Promise<unknown> {
@@ -90,6 +100,18 @@ export async function getSources(): Promise<Source[]> {
       status: text(item.status, item.index_status) || undefined,
     };
   });
+}
+
+export async function getHealth(): Promise<AppHealth> {
+  const raw = object(await request("/health"));
+  const ollama = object(raw.ollama);
+  return {
+    status: text(raw.status),
+    ollama: {
+      configured: ollama.configured === true,
+      status: text(ollama.status) || undefined,
+    },
+  };
 }
 
 export async function queryTextbooks(body: QueryRequest): Promise<Answer> {
@@ -171,10 +193,12 @@ export async function getConversation(id: string): Promise<Answer> {
     .sort((left, right) => (number(left.citation_order) ?? 0) - (number(right.citation_order) ?? 0));
   const rawStatus = text(assistant?.status, raw.status).toLowerCase();
   const provider = text(assistant?.actual_provider, assistant?.provider).toLowerCase();
+  const status = historyAnswerStatus(rawStatus, provider || undefined);
+  const assistantText = text(assistant?.text, assistant?.content, raw.answer);
   return {
-    status: (rawStatus === "abstained" || rawStatus.includes("insufficient")) && provider ? "provider_abstention" : rawStatus.includes("insufficient") || rawStatus === "abstained" ? "insufficient_evidence" : "answered",
+    status,
     question: text(user?.text, user?.content, raw.title),
-    text: text(assistant?.text, assistant?.content, raw.answer),
+    text: status === "error" ? "" : assistantText,
     citations: array(citationsRaw).map((value, index) => normalizeCitation(value, index, evidence)),
     evidence,
     requestedProvider: (text(assistant?.provider_choice, assistant?.requested_provider, "auto").toLowerCase()) as ProviderChoice,
@@ -183,6 +207,7 @@ export async function getConversation(id: string): Promise<Answer> {
     fallbackReason: text(assistant?.initial_failure_kind, assistant?.fallback_reason) || undefined,
     conversationId: id,
     messageId: text(assistant?.id) || undefined,
+    error: status === "error" ? assistantText || "This saved question could not be completed." : undefined,
   };
 }
 

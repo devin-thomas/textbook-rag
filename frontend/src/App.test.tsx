@@ -4,16 +4,19 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 
 const sources = { sources: [{ id: "missing-link-web", title: "The Missing Link", course_ids: ["ITSE-1311"] }] };
+const healthy = { status: "ok", ollama: { configured: true } };
 
 function response(body: unknown, status = 200): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 }
 
-function mockApi(queryResult?: unknown, conversations: unknown[] = []) {
+function mockApi(queryResult?: unknown, conversations: unknown[] = [], health: unknown = healthy, conversationDetail?: unknown) {
   const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
     const url = String(input);
+    if (url.endsWith("/health")) return response(health);
     if (url.endsWith("/sources")) return response(sources);
     if (url.endsWith("/conversations") && (!init?.method || init.method === "GET")) return response({ conversations });
+    if (conversationDetail && url.includes("/conversations/")) return response(conversationDetail);
     if (url.includes("/query")) return response(queryResult ?? {});
     if (url.includes("confirm=true")) return response(undefined, 204);
     if (init?.method === "DELETE") return response(undefined, 204);
@@ -29,6 +32,13 @@ afterEach(() => {
 });
 
 describe("Textbook Desk", () => {
+  it("reports Research configuration only after the health response", async () => {
+    mockApi();
+    render(<App />);
+    expect(await screen.findByText("Research configured")).toBeInTheDocument();
+    expect(screen.queryByText("Research online")).not.toBeInTheDocument();
+  });
+
   it("submits the chosen provider and displays cited textbook evidence", async () => {
     const fetchMock = mockApi({
       status: "answered",
@@ -63,6 +73,24 @@ describe("Textbook Desk", () => {
     await user.click(screen.getByRole("button", { name: "Ask question" }));
     expect(await screen.findByText(/NVIDIA unavailable/)).toBeInTheDocument();
     expect(screen.getByLabelText("Answer provider")).toHaveValue("auto");
+    await user.click(screen.getByRole("button", { name: "Dismiss fallback notice" }));
+    expect(screen.queryByText(/NVIDIA unavailable/)).not.toBeInTheDocument();
+  });
+
+  it("renders a persisted provider failure as an error when history is reopened", async () => {
+    mockApi(undefined, [{ id: "conv-failed", title: "Virtual memory", updated_at: "2026-08-24T14:00:00Z" }], healthy, {
+      id: "conv-failed",
+      title: "Virtual memory",
+      messages: [
+        { id: "u1", role: "user", text: "What is virtual memory?", provider_choice: "nvidia" },
+        { id: "a1", role: "assistant", text: "Nvidia is temporarily unavailable for this question.", provider_choice: "nvidia", status: "provider_unavailable", evidence: [] },
+      ],
+    });
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(await screen.findByRole("button", { name: /^Virtual memory/ }));
+    expect(await screen.findByRole("heading", { name: "Nvidia is temporarily unavailable for this question." })).toBeInTheDocument();
+    expect(screen.queryByText(/Answered by/)).not.toBeInTheDocument();
   });
 
   it("renders insufficient evidence as a distinct non-error state", async () => {

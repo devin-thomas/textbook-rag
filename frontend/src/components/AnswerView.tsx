@@ -1,4 +1,5 @@
-import { AlertIcon, BookIcon } from "../icons";
+import { useState } from "react";
+import { AlertIcon, BookIcon, CloseIcon } from "../icons";
 import type { Answer, AnswerStatus, Evidence } from "../types";
 
 interface AnswerViewProps {
@@ -41,6 +42,9 @@ function CitationControls({ answer, onCitation }: { answer: Answer; onCitation: 
 }
 
 export function AnswerView({ status, answer, loadingQuestion, loadingStep, onCitation, onShowEvidence }: AnswerViewProps) {
+  const [dismissedFallbackKey, setDismissedFallbackKey] = useState<string>();
+  const fallbackKey = answer?.fallback ? answer.messageId ?? `${answer.conversationId ?? ""}:${answer.question}:${answer.text}` : "";
+
   if (status === "idle") return (
     <div className="welcome-state">
       <div className="welcome-mark" aria-hidden="true"><BookIcon /></div>
@@ -71,7 +75,7 @@ export function AnswerView({ status, answer, loadingQuestion, loadingStep, onCit
 
   return (
     <article className="answer-article">
-      {answer.fallback && <div className="fallback-banner" role="status"><AlertIcon /><span><strong>NVIDIA unavailable</strong> — answered by Ollama</span></div>}
+      {answer.fallback && dismissedFallbackKey !== fallbackKey && <div className="fallback-banner" role="status"><AlertIcon /><span><strong>NVIDIA unavailable</strong> — answered by Ollama</span><button type="button" className="icon-button fallback-dismiss" onClick={() => setDismissedFallbackKey(fallbackKey)} aria-label="Dismiss fallback notice"><CloseIcon /></button></div>}
       <p className="eyebrow">You asked</p><h1>{answer.question}</h1><hr />
       {answer.status === "insufficient_evidence" ? (
         <div className="insufficient-state">

@@ -13,6 +13,14 @@ export interface Source {
   status?: string;
 }
 
+export interface AppHealth {
+  status: string;
+  ollama: {
+    configured: boolean;
+    status?: string;
+  };
+}
+
 export interface Evidence {
   id: string;
   sourceId: string;

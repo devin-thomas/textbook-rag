@@ -37,6 +37,22 @@ describe("API normalization", () => {
     expect(result.error).toMatch(/did not finish/);
   });
 
+  it.each(["provider_unavailable", "retrieval_unavailable"])("normalizes a saved %s assistant turn as an error", async (status) => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({
+      id: "conv-failed",
+      title: "Failed question",
+      messages: [
+        { id: "u1", role: "user", text: "What happened?", provider_choice: "auto" },
+        { id: "a1", role: "assistant", text: "The saved request could not be completed.", provider_choice: "auto", status, evidence: [] },
+      ],
+    }), { status: 200 })));
+
+    const result = await getConversation("conv-failed");
+    expect(result.status).toBe("error");
+    expect(result.text).toBe("");
+    expect(result.error).toBe("The saved request could not be completed.");
+  });
+
   it("surfaces the backend's stable nested error message", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ error: { code: "retrieval_unavailable", message: "Embedding tunnel is offline" } }), { status: 503 })));
     try {

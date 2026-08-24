@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { ApiError, clearConversations, deleteConversation, getConversation, getConversations, getSources, queryTextbooks } from "./api";
+import { ApiError, clearConversations, deleteConversation, getConversation, getConversations, getHealth, getSources, queryTextbooks } from "./api";
 import { FALLBACK_SOURCES } from "./catalog";
 import { AnswerView } from "./components/AnswerView";
 import { ConfirmDialog } from "./components/ConfirmDialog";
@@ -10,6 +10,7 @@ import { BookIcon, FilterIcon, MenuIcon, PlusIcon, SendIcon } from "./icons";
 import type { Answer, AnswerStatus, ConversationSummary, Evidence, ProviderChoice, Source } from "./types";
 
 type DeleteTarget = ConversationSummary | "all" | undefined;
+type ResearchHealthState = "checking" | "configured" | "unavailable";
 
 function scopeLabel(courseIds: string[], sourceIds: string[], sources: Source[]): string {
   if (!courseIds.length && !sourceIds.length) return "All four books";
@@ -37,6 +38,7 @@ export default function App() {
   const [activeEvidence, setActiveEvidence] = useState<Evidence>();
   const [deleteTarget, setDeleteTarget] = useState<DeleteTarget>();
   const [deleting, setDeleting] = useState(false);
+  const [researchHealth, setResearchHealth] = useState<ResearchHealthState>("checking");
 
   const refreshConversations = useCallback(async () => {
     try { setConversations(await getConversations()); } catch { /* History remains usable as an empty local view while the API starts. */ }
@@ -45,6 +47,7 @@ export default function App() {
   useEffect(() => {
     void Promise.all([
       getSources().then((items) => items.length && setSources(items)).catch(() => undefined),
+      getHealth().then((health) => setResearchHealth(health.status === "ok" && health.ollama.configured ? "configured" : "unavailable")).catch(() => setResearchHealth("unavailable")),
       refreshConversations(),
     ]);
   }, [refreshConversations]);
@@ -149,7 +152,7 @@ export default function App() {
         <a className="brand" href="/textbooks/" onClick={(event) => { event.preventDefault(); reset(); }}>Textbook Desk</a>
         <button className="scope-top desktop-only" onClick={() => setScopeOpen(true)}><BookIcon /> {selectedScope} <span>⌄</span></button>
         <label className="provider-select"><span className="desktop-only">Provider</span><select value={provider} onChange={(event) => setProvider(event.target.value as ProviderChoice)} aria-label="Answer provider"><option value="auto">Auto</option><option value="nvidia">NVIDIA</option><option value="ollama">Ollama</option></select></label>
-        <span className="research-status desktop-only"><i /> Research online</span>
+        <span className="research-status desktop-only" data-state={researchHealth}><i /> {researchHealth === "checking" ? "Checking Research…" : researchHealth === "configured" ? "Research configured" : "Research unavailable"}</span>
         <button className="new-question" onClick={reset}><PlusIcon /><span className="desktop-only">New question</span></button>
       </header>
 
