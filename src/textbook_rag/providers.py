@@ -109,6 +109,27 @@ def _prompt(
     ]
 
 
+def _embedded_json_objects(candidate: str) -> tuple[object, ...]:
+    decoder = json.JSONDecoder()
+    payloads: list[object] = []
+    search_from = 0
+    while True:
+        start = candidate.find("{", search_from)
+        if start < 0:
+            return tuple(payloads)
+        try:
+            payload, end = decoder.raw_decode(candidate, start)
+        except json.JSONDecodeError:
+            search_from = start + 1
+            continue
+        payloads.append(payload)
+        search_from = max(start + 1, end)
+
+
+def _has_answer_fields(payload: object) -> bool:
+    return isinstance(payload, dict) and {"status", "answer", "citations"} <= payload.keys()
+
+
 def _decode_answer(provider: ProviderName, content: object, evidence: tuple[Evidence, ...]) -> GeneratedAnswer:
     if not isinstance(content, str) or not content.strip():
         raise GroundingFailure(provider, "malformed_response", "provider returned no answer", retryable=True)
@@ -118,13 +139,12 @@ def _decode_answer(provider: ProviderName, content: object, evidence: tuple[Evid
     try:
         payload = json.loads(candidate)
     except json.JSONDecodeError:
-        start, end = candidate.find("{"), candidate.rfind("}")
-        try:
-            payload = json.loads(candidate[start : end + 1])
-        except (json.JSONDecodeError, ValueError) as exc:
+        embedded = [item for item in _embedded_json_objects(candidate) if isinstance(item, dict)]
+        if not embedded:
             raise GroundingFailure(
                 provider, "malformed_response", "provider returned invalid JSON", retryable=True
-            ) from exc
+            )
+        payload = next((item for item in reversed(embedded) if _has_answer_fields(item)), embedded[-1])
     if not isinstance(payload, dict):
         raise GroundingFailure(
             provider,

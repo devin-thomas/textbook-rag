@@ -128,6 +128,24 @@ def test_valid_provider_abstention_is_not_a_failure() -> None:
     assert answer.status == "insufficient_evidence"
 
 
+def test_decode_answer_ignores_embedded_draft_before_final_json() -> None:
+    evidence = (
+        Evidence("chunk-0", "book-0", "Book", 4, "4", "excerpt", 1, .9, 1.0, .03),
+    )
+
+    answer = _decode_answer(
+        "nvidia",
+        (
+            '<think>{"status":"ok","answer":"Draft.","citations":["chunk-0"]}</think>\n'
+            '```json\n{"status":"ok","answer":"Grounded.","citations":["chunk-0"]}\n```'
+        ),
+        evidence,
+    )
+
+    assert answer.answer == "Grounded."
+    assert answer.cited_chunk_ids == ("chunk-0",)
+
+
 def test_auto_does_not_fallback_for_invalid_citations() -> None:
     failure = GroundingFailure(
         "nvidia", "invalid_citations", "provider cited unretreived evidence", retryable=False
