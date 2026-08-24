@@ -1,0 +1,46 @@
+{
+  "courses": [
+    {
+      "id": "ITSC-1305",
+      "name": "Introduction to PC Operating Systems"
+    },
+    {
+      "id": "INEW-2330",
+      "name": "Comprehensive Software Project: Planning & Design"
+    },
+    {
+      "id": "ITSE-1311",
+      "name": "Beginning Web Programming"
+    },
+    {
+      "id": "ITSE-2302",
+      "name": "Intermediate Web Programming"
+    }
+  ],
+  "sources": [
+    {
+      "id": "parallel-operating-systems",
+      "title": "Guide to Parallel Operating Systems",
+      "file_name": "[1305] 28143567.pdf",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "comptia-tech-plus",
+      "title": "CompTIA Tech+ Study Guide",
+      "file_name": "[1305] pc operating systems 974822699-CompTIA-Tech-FCO-U71-Study-Guide.pdf",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "missing-link-web",
+      "title": "The Missing Link",
+      "file_name": "[beginner and intermediate web] The Missing Link_ An Introduction to Web Development and Programm.pdf",
+      "course_ids": ["ITSE-1311", "ITSE-2302"]
+    },
+    {
+      "id": "clean-coder",
+      "title": "The Clean Coder",
+      "file_name": "[comprehnsive 1] Clean Coder, The - A Code of Conduct for Professional Programmers - Autor (Robert C. Martin).pdf",
+      "course_ids": ["INEW-2330"]
+    }
+  ]
+}
