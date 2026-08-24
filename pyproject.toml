@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "textbook-desk"
+version = "0.1.0"
+description = "Private, page-aware RAG for semester textbooks"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+  "fastapi==0.116.1",
+  "httpx==0.28.1",
+  "numpy==2.3.2",
+  "pdfplumber==0.11.9",
+  "pydantic==2.11.7",
+  "pypdf==6.10.0",
+  "uvicorn[standard]==0.35.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.4.1",
+  "pytest-asyncio==1.1.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/textbook_rag"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/backend"]
+addopts = "-q"
