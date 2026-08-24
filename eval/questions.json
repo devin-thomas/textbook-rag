@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "parallel-virtual-memory",
+      "question": "What happens when a process references a virtual-memory page that is not currently in physical memory?",
+      "expected_status": "answer",
+      "expected_source_ids": ["parallel-operating-systems"]
+    },
+    {
+      "id": "parallel-physical-vs-virtual",
+      "question": "How does virtual memory differ from physical memory?",
+      "expected_status": "answer",
+      "expected_source_ids": ["parallel-operating-systems", "comptia-tech-plus"]
+    },
+    {
+      "id": "parallel-process-thread",
+      "question": "What is the difference between a process and a thread?",
+      "expected_status": "answer",
+      "expected_source_ids": ["parallel-operating-systems"]
+    },
+    {
+      "id": "comptia-volatile-memory",
+      "question": "Why is RAM described as volatile memory?",
+      "expected_status": "answer",
+      "expected_source_ids": ["comptia-tech-plus"]
+    },
+    {
+      "id": "comptia-operating-system-role",
+      "question": "What core jobs does an operating system perform for applications and hardware?",
+      "expected_status": "answer",
+      "expected_source_ids": ["comptia-tech-plus", "parallel-operating-systems"]
+    },
+    {
+      "id": "comptia-storage-memory",
+      "question": "How is long-term storage different from system memory?",
+      "expected_status": "answer",
+      "expected_source_ids": ["comptia-tech-plus"]
+    },
+    {
+      "id": "web-semantic-html",
+      "question": "Why is semantic HTML important?",
+      "expected_status": "answer",
+      "expected_source_ids": ["missing-link-web"]
+    },
+    {
+      "id": "web-css-box-model",
+      "question": "What parts make up the CSS box model?",
+      "expected_status": "answer",
+      "expected_source_ids": ["missing-link-web"]
+    },
+    {
+      "id": "web-javascript-dom",
+      "question": "What is the DOM and how does JavaScript use it?",
+      "expected_status": "answer",
+      "expected_source_ids": ["missing-link-web"]
+    },
+    {
+      "id": "clean-coder-saying-no",
+      "question": "According to The Clean Coder, why must a professional programmer sometimes say no?",
+      "expected_status": "answer",
+      "expected_source_ids": ["clean-coder"]
+    },
+    {
+      "id": "clean-coder-practice",
+      "question": "Why does The Clean Coder argue that programmers should practice outside project work?",
+      "expected_status": "answer",
+      "expected_source_ids": ["clean-coder"]
+    },
+    {
+      "id": "clean-coder-commitment",
+      "question": "What distinction does The Clean Coder make between an estimate and a commitment?",
+      "expected_status": "answer",
+      "expected_source_ids": ["clean-coder"]
+    },
+    {
+      "id": "unsupported-midterm-date",
+      "question": "What date is my ITSC 1305 midterm this semester?",
+      "expected_status": "insufficient_evidence",
+      "expected_source_ids": []
+    },
+    {
+      "id": "unsupported-professor-email",
+      "question": "What is my INEW 2330 professor's email address?",
+      "expected_status": "insufficient_evidence",
+      "expected_source_ids": []
+    },
+    {
+      "id": "unsupported-current-react",
+      "question": "What is the newest stable React version available today?",
+      "expected_status": "insufficient_evidence",
+      "expected_source_ids": []
+    },
+    {
+      "id": "unsupported-cafeteria",
+      "question": "What time does the campus cafeteria close on Fridays?",
+      "expected_status": "insufficient_evidence",
+      "expected_source_ids": []
+    },
+    {
+      "id": "unsupported-personal-grade",
+      "question": "What grade did I receive on my first programming assignment?",
+      "expected_status": "insufficient_evidence",
+      "expected_source_ids": []
+    },
+    {
+      "id": "unsupported-nvidia-runtime",
+      "question": "Which GPU hardware is NVIDIA using to host this app's current model request?",
+      "expected_status": "insufficient_evidence",
+      "expected_source_ids": []
+    }
+  ]
+}
