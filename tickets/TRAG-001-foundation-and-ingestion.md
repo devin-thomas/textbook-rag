@@ -1,5 +1,7 @@
 # TRAG-001 - Foundation and page-aware ingestion
 
+**Status:** Complete
+
 ## Goal
 
 Create the repository foundation, source catalog, SQLite schema, extraction pipeline, chunking, local embedding client, and ingestion report for the four approved PDFs.
@@ -19,3 +21,7 @@ None.
 - Embeddings come only from `qwen3-embedding:4b`; unexpected dimensions fail the run.
 - Re-ingestion is idempotent and reports indexed/skipped/flagged totals per source.
 - Unit tests cover normalization, chunk provenance, catalog allowlisting, idempotence, and embedding dimension validation.
+
+## Execution result
+
+The four-source corpus is indexed at 1,589 physical pages and 1,615 page-bounded chunks. A repeat ingestion skipped all four sources as current, and the integrated backend suite passes 46 tests including source retirement, partial-ingestion, extraction-error, provenance, and schema-migration regressions.

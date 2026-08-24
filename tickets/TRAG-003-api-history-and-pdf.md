@@ -1,5 +1,7 @@
 # TRAG-003 - API, local history, and exact-page PDFs
 
+**Status:** Complete
+
 ## Goal
 
 Expose the application API, persist conversations on Titan, and safely stream configured PDFs for exact-page viewing.
@@ -17,3 +19,6 @@ TRAG-001 and TRAG-002.
 - Application supports the `/textbooks` root path in development and production.
 - API tests cover validation, persistence, deletion boundaries, error shapes, and PDF allowlisting/ranges.
 
+## Execution result
+
+Loopback and browser acceptance covered health, sources, PDF byte ranges, paired history turns, delete-one, guarded clear-all, saved fallback state, and allowlisted PDF viewing. Printed labels remain separate from physical navigation coordinates, including page 138 to physical PDF page 171.

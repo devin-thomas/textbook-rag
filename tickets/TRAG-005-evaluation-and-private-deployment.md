@@ -1,5 +1,7 @@
 # TRAG-005 - Evaluation, auto-start, and private deployment
 
+**Status:** Complete
+
 ## Goal
 
 Prove retrieval/grounding quality, install reliable Titan startup behavior, and mount the application privately without disrupting the existing Serve root.
@@ -17,3 +19,7 @@ TRAG-001 through TRAG-004.
 - Loopback, desktop, mobile viewport, and tailnet URL checks pass; real-device acceptance is stated separately if not physically performed.
 - Browser screenshots are compared with the ImageGen concepts and Figma renders, and a fidelity ledger records matches, deliberate differences, and remaining gaps.
 - `README.md` documents setup, ingestion, operation, deletion, failure recovery, and rollback without exposing secrets.
+
+## Execution result
+
+Both scheduled tasks are running, `/textbooks` is mounted through tailnet-only Tailscale Serve, and the existing root mapping remains unchanged. The final deployment gate passes all task, mapping, listener, loopback, and tailnet checks. Desktop and 390px browser acceptance passed; physical iPhone acceptance remains explicitly separate and was not run.

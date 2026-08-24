@@ -1,5 +1,7 @@
 # TRAG-002 - Hybrid retrieval and grounded providers
 
+**Status:** Complete
+
 ## Goal
 
 Implement filtered hybrid retrieval, strict evidence gating, NVIDIA/Ollama adapters, and the exact Auto fallback contract.
@@ -18,3 +20,6 @@ TRAG-001.
 - Provider output citations are validated against retrieved chunk IDs.
 - Tests cover both providers, success/failure classification, Auto fallback, explicit failure, abstention, and invalid citations.
 
+## Execution result
+
+The reproducible retrieval suite passes 18/18 cases. Live checks passed explicit NVIDIA, explicit Ollama, Auto-to-NVIDIA, controlled Auto-to-Ollama fallback, and unsupported abstention without a provider call; generated prose keeps internal chunk IDs out of user-facing copy.
