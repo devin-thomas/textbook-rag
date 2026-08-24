@@ -16,6 +16,7 @@ reports/generated/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.pytest-*/
 .ruff_cache/
 
 # Node
@@ -34,4 +35,3 @@ coverage/
 Thumbs.db
 .idea/
 .vscode/
-

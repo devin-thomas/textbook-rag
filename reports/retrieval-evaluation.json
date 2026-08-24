@@ -1,0 +1,493 @@
+{
+  "generated_at": "2026-08-24T16:49:19+00:00",
+  "total": 18,
+  "passed": 18,
+  "failed": 0,
+  "pass_rate": 1.0,
+  "results": [
+    {
+      "id": "parallel-virtual-memory",
+      "question": "What happens when a process references a virtual-memory page that is not currently in physical memory?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "parallel-operating-systems"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "top_semantic_score": 0.559506893157959,
+      "top_pages": [
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 72,
+          "page_label": "50",
+          "fusion_score": 0.03278688524590164
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 73,
+          "page_label": "51",
+          "fusion_score": 0.03125763125763126
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 576,
+          "page_label": "554",
+          "fusion_score": 0.030798389007344232
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "parallel-physical-vs-virtual",
+      "question": "How does virtual memory differ from physical memory?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "top_semantic_score": 0.6468881368637085,
+      "top_pages": [
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 72,
+          "page_label": "50",
+          "fusion_score": 0.03278688524590164
+        },
+        {
+          "source_id": "comptia-tech-plus",
+          "physical_page": 171,
+          "page_label": "171",
+          "fusion_score": 0.03149801587301587
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 73,
+          "page_label": "51",
+          "fusion_score": 0.03128054740957967
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "parallel-process-thread",
+      "question": "What is the difference between a process and a thread?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "parallel-operating-systems"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "missing-link-web",
+        "parallel-operating-systems"
+      ],
+      "top_semantic_score": 0.5802353620529175,
+      "top_pages": [
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 70,
+          "page_label": "48",
+          "fusion_score": 0.03278688524590164
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 71,
+          "page_label": "49",
+          "fusion_score": 0.030536130536130537
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 555,
+          "page_label": "533",
+          "fusion_score": 0.016129032258064516
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "comptia-volatile-memory",
+      "question": "Why is RAM described as volatile memory?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "comptia-tech-plus"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "top_semantic_score": 0.6364310383796692,
+      "top_pages": [
+        {
+          "source_id": "comptia-tech-plus",
+          "physical_page": 86,
+          "page_label": "86",
+          "fusion_score": 0.03278688524590164
+        },
+        {
+          "source_id": "comptia-tech-plus",
+          "physical_page": 82,
+          "page_label": "82",
+          "fusion_score": 0.03128054740957967
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 31,
+          "page_label": "9",
+          "fusion_score": 0.031054405392392875
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "comptia-operating-system-role",
+      "question": "What core jobs does an operating system perform for applications and hardware?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "top_semantic_score": 0.6823337078094482,
+      "top_pages": [
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 99,
+          "page_label": "77",
+          "fusion_score": 0.03278688524590164
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 74,
+          "page_label": "52",
+          "fusion_score": 0.02964426877470356
+        },
+        {
+          "source_id": "parallel-operating-systems",
+          "physical_page": 62,
+          "page_label": "40",
+          "fusion_score": 0.029571646010002173
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "comptia-storage-memory",
+      "question": "How is long-term storage different from system memory?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "comptia-tech-plus"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "parallel-operating-systems"
+      ],
+      "top_semantic_score": 0.5941265821456909,
+      "top_pages": [
+        {
+          "source_id": "comptia-tech-plus",
+          "physical_page": 43,
+          "page_label": "43",
+          "fusion_score": 0.031009615384615385
+        },
+        {
+          "source_id": "comptia-tech-plus",
+          "physical_page": 45,
+          "page_label": "45",
+          "fusion_score": 0.030886196246139225
+        },
+        {
+          "source_id": "comptia-tech-plus",
+          "physical_page": 171,
+          "page_label": "171",
+          "fusion_score": 0.030309988518943745
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "web-semantic-html",
+      "question": "Why is semantic HTML important?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "missing-link-web"
+      ],
+      "retrieved_source_ids": [
+        "missing-link-web"
+      ],
+      "top_semantic_score": 0.5822809934616089,
+      "top_pages": [
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 75,
+          "page_label": "61",
+          "fusion_score": 0.031746031746031744
+        },
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 294,
+          "page_label": "280",
+          "fusion_score": 0.030834914611005692
+        },
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 81,
+          "page_label": "67",
+          "fusion_score": 0.029211087420042643
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "web-css-box-model",
+      "question": "What parts make up the CSS box model?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "missing-link-web"
+      ],
+      "retrieved_source_ids": [
+        "comptia-tech-plus",
+        "missing-link-web"
+      ],
+      "top_semantic_score": 0.7490726113319397,
+      "top_pages": [
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 133,
+          "page_label": "119",
+          "fusion_score": 0.03278688524590164
+        },
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 10,
+          "page_label": "xi",
+          "fusion_score": 0.030834914611005692
+        },
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 157,
+          "page_label": "143",
+          "fusion_score": 0.02900988017658188
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "web-javascript-dom",
+      "question": "What is the DOM and how does JavaScript use it?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "missing-link-web"
+      ],
+      "retrieved_source_ids": [
+        "missing-link-web"
+      ],
+      "top_semantic_score": 0.7083954215049744,
+      "top_pages": [
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 299,
+          "page_label": "285",
+          "fusion_score": 0.03252247488101534
+        },
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 212,
+          "page_label": "198",
+          "fusion_score": 0.032266458495966696
+        },
+        {
+          "source_id": "missing-link-web",
+          "physical_page": 222,
+          "page_label": "208",
+          "fusion_score": 0.03200204813108039
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "clean-coder-saying-no",
+      "question": "According to The Clean Coder, why must a professional programmer sometimes say no?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "clean-coder"
+      ],
+      "retrieved_source_ids": [
+        "clean-coder"
+      ],
+      "top_semantic_score": 0.7687562704086304,
+      "top_pages": [
+        {
+          "source_id": "clean-coder",
+          "physical_page": 2,
+          "page_label": "i",
+          "fusion_score": 0.032018442622950824
+        },
+        {
+          "source_id": "clean-coder",
+          "physical_page": 6,
+          "page_label": "v",
+          "fusion_score": 0.031544957774465976
+        },
+        {
+          "source_id": "clean-coder",
+          "physical_page": 4,
+          "page_label": "iii",
+          "fusion_score": 0.031009615384615385
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "clean-coder-practice",
+      "question": "Why does The Clean Coder argue that programmers should practice outside project work?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "clean-coder"
+      ],
+      "retrieved_source_ids": [
+        "clean-coder"
+      ],
+      "top_semantic_score": 0.7188677787780762,
+      "top_pages": [
+        {
+          "source_id": "clean-coder",
+          "physical_page": 126,
+          "page_label": "93",
+          "fusion_score": 0.03252247488101534
+        },
+        {
+          "source_id": "clean-coder",
+          "physical_page": 4,
+          "page_label": "iii",
+          "fusion_score": 0.03125
+        },
+        {
+          "source_id": "clean-coder",
+          "physical_page": 52,
+          "page_label": "19",
+          "fusion_score": 0.031099324975891997
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "clean-coder-commitment",
+      "question": "What distinction does The Clean Coder make between an estimate and a commitment?",
+      "expected_status": "answer",
+      "actual_status": "answer",
+      "expected_source_ids": [
+        "clean-coder"
+      ],
+      "retrieved_source_ids": [
+        "clean-coder"
+      ],
+      "top_semantic_score": 0.8026096820831299,
+      "top_pages": [
+        {
+          "source_id": "clean-coder",
+          "physical_page": 171,
+          "page_label": "138",
+          "fusion_score": 0.03252247488101534
+        },
+        {
+          "source_id": "clean-coder",
+          "physical_page": 6,
+          "page_label": "v",
+          "fusion_score": 0.03076923076923077
+        },
+        {
+          "source_id": "clean-coder",
+          "physical_page": 4,
+          "page_label": "iii",
+          "fusion_score": 0.03036576949620428
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "unsupported-midterm-date",
+      "question": "What date is my ITSC 1305 midterm this semester?",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "expected_source_ids": [],
+      "retrieved_source_ids": [],
+      "top_semantic_score": null,
+      "top_pages": [],
+      "passed": true
+    },
+    {
+      "id": "unsupported-professor-email",
+      "question": "What is my INEW 2330 professor's email address?",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "expected_source_ids": [],
+      "retrieved_source_ids": [],
+      "top_semantic_score": null,
+      "top_pages": [],
+      "passed": true
+    },
+    {
+      "id": "unsupported-current-react",
+      "question": "What is the newest stable React version available today?",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "expected_source_ids": [],
+      "retrieved_source_ids": [],
+      "top_semantic_score": null,
+      "top_pages": [],
+      "passed": true
+    },
+    {
+      "id": "unsupported-cafeteria",
+      "question": "What time does the campus cafeteria close on Fridays?",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "expected_source_ids": [],
+      "retrieved_source_ids": [],
+      "top_semantic_score": null,
+      "top_pages": [],
+      "passed": true
+    },
+    {
+      "id": "unsupported-personal-grade",
+      "question": "What grade did I receive on my first programming assignment?",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "expected_source_ids": [],
+      "retrieved_source_ids": [],
+      "top_semantic_score": null,
+      "top_pages": [],
+      "passed": true
+    },
+    {
+      "id": "unsupported-nvidia-runtime",
+      "question": "Which GPU hardware is NVIDIA using to host this app's current model request?",
+      "expected_status": "insufficient_evidence",
+      "actual_status": "insufficient_evidence",
+      "expected_source_ids": [],
+      "retrieved_source_ids": [],
+      "top_semantic_score": null,
+      "top_pages": [],
+      "passed": true
+    }
+  ]
+}

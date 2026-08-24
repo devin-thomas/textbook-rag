@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-08-24T17:19:08+00:00",
+  "embedding_model": "qwen3-embedding:4b",
+  "embedding_dimension": 2560,
+  "sources": [
+    {
+      "source_id": "parallel-operating-systems",
+      "status": "skipped",
+      "reason": "index_current",
+      "pages": 676,
+      "chunks": 684,
+      "flagged_count": 11
+    },
+    {
+      "source_id": "comptia-tech-plus",
+      "status": "skipped",
+      "reason": "index_current",
+      "pages": 363,
+      "chunks": 363,
+      "flagged_count": 0
+    },
+    {
+      "source_id": "missing-link-web",
+      "status": "skipped",
+      "reason": "index_current",
+      "pages": 303,
+      "chunks": 322,
+      "flagged_count": 0
+    },
+    {
+      "source_id": "clean-coder",
+      "status": "skipped",
+      "reason": "index_current",
+      "pages": 247,
+      "chunks": 246,
+      "flagged_count": 13
+    }
+  ],
+  "summary": {
+    "indexed_sources": 0,
+    "skipped_sources": 4,
+    "pages": 1589,
+    "chunks": 1615,
+    "flagged_pages": 24
+  }
+}
