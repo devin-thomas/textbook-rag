@@ -15,6 +15,7 @@ The first release succeeds when the user can ask from desktop or phone, select `
 - Course and source filtering, including one source shared by multiple courses.
 - Hybrid local retrieval using semantic embeddings and SQLite FTS.
 - `Auto`, `NVIDIA`, and `Ollama` generation choices per query.
+- Optional `Select all that apply` query mode for questions with multiple correct answers.
 - Strict textbook-only answers with explicit abstention.
 - Local conversation persistence and individual/bulk deletion.
 - Responsive desktop and phone interfaces.
@@ -83,7 +84,7 @@ Re-running ingestion is idempotent by source file hash, extraction version, chun
 - Return retrieval scores and exact excerpts to the UI for inspection, but never imply a score is certainty.
 - If no candidate clears the evaluated support threshold, return `insufficient_evidence` without calling a generation provider.
 
-The evaluation suite owns the threshold. The value is configuration and may be tightened after testing; provider choice never changes the embedding space or ranking behavior.
+The evaluation suite owns the threshold. The value is configuration and may be tightened after testing; provider choice never changes the embedding space or normal ranking behavior. If the local query-embedding request fails, `NVIDIA` and `Auto` may use SQLite FTS-only retrieval from the same indexed chunks and must expose that degraded retrieval mode; explicit `Ollama` continues to return retrieval unavailable.
 
 ## 7. Grounded Generation
 
@@ -111,7 +112,7 @@ All routes are under `/textbooks/api` when deployed and `/api` inside the applic
 
 - `GET /health` returns app, database, index, Ollama, and NVIDIA configuration status without secrets.
 - `GET /sources` returns catalog and indexing status.
-- `POST /query` accepts `question`, `provider`, optional `course_ids`, optional `source_ids`, and optional `conversation_id`; returns answer status, answer text, citations, evidence, provider outcome, and conversation/message IDs.
+- `POST /query` accepts `question`, `provider`, optional `course_ids`, optional `source_ids`, optional `conversation_id`, and optional `select_all_that_apply`; returns answer status, answer text, citations, evidence, provider outcome, retrieval fallback state, answer mode, and conversation/message IDs.
 - `GET /conversations` lists local conversation summaries newest first.
 - `GET /conversations/{id}` returns messages and evidence references.
 - `DELETE /conversations/{id}` deletes one conversation and its messages only.
@@ -128,7 +129,7 @@ Requests are size-limited and validated. Error responses distinguish invalid inp
 - `chunks`: page-aware content, ordinal, hash, embedding blob, embedding dimension.
 - `chunks_fts`: FTS5 virtual table mirroring chunk content.
 - `conversations`: local title and timestamps.
-- `messages`: role, text, provider choice/actual provider, fallback flag, status, timestamps.
+- `messages`: role, text, provider choice/actual provider, fallback flag, select-all-that-apply mode, status, timestamps.
 - `message_evidence`: retrieved chunk IDs, rank, scores, and citation order.
 
 Foreign keys and cascading deletes apply only inside the conversation aggregate. Deleting history must not delete source/index rows or PDFs.
@@ -140,6 +141,8 @@ The visual contract is the Figma file `VOfLyXbC90Xz8TlyjfqkVD`, page `Product UI
 - Desktop uses a history rail, central answer/composer, and evidence/PDF panel.
 - Mobile uses a compact top bar, dismissible fallback banner, scrollable answer, evidence bottom sheet, and fixed composer.
 - The provider control is visible at query time.
+- The composer includes a keyboard-accessible `Select all that apply` checkbox before submission; the selected mode is passed to generation and preserved in history.
+- All application UI text and controls use a sans-serif type system with visible focus states and 44px minimum touch targets.
 - Citation controls are keyboard accessible and open the original PDF to the cited page inside the app.
 - Loading preserves the current question and shows retrieval/generation progress without fake completion percentages.
 - Insufficient evidence is a clear answer state, not a generic error.

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+import pytest
 from fastapi.testclient import TestClient
 
 from textbook_rag.app import Runtime, create_app
@@ -101,6 +102,46 @@ def test_database_migrates_initial_failure_metadata_column(seeded_database) -> N
     assert migration is not None
 
 
+def test_database_migrates_retrieval_fallback_metadata_column(seeded_database) -> None:
+    database, catalog = seeded_database
+    with database.connect() as connection:
+        connection.execute("DELETE FROM schema_migrations WHERE version=5")
+        connection.execute("ALTER TABLE messages DROP COLUMN retrieval_fallback_used")
+        connection.commit()
+
+    database.initialize(catalog)
+
+    with database.connect() as connection:
+        columns = {
+            row["name"] for row in connection.execute("PRAGMA table_info(messages)").fetchall()
+        }
+        migration = connection.execute(
+            "SELECT 1 FROM schema_migrations WHERE version=5"
+        ).fetchone()
+    assert "retrieval_fallback_used" in columns
+    assert migration is not None
+
+
+def test_database_migrates_select_all_mode_column(seeded_database) -> None:
+    database, catalog = seeded_database
+    with database.connect() as connection:
+        connection.execute("DELETE FROM schema_migrations WHERE version=6")
+        connection.execute("ALTER TABLE messages DROP COLUMN select_all_that_apply")
+        connection.commit()
+
+    database.initialize(catalog)
+
+    with database.connect() as connection:
+        columns = {
+            row["name"] for row in connection.execute("PRAGMA table_info(messages)").fetchall()
+        }
+        migration = connection.execute(
+            "SELECT 1 FROM schema_migrations WHERE version=6"
+        ).fetchone()
+    assert "select_all_that_apply" in columns
+    assert migration is not None
+
+
 def test_query_persists_provider_citations_and_ranked_evidence(seeded_database) -> None:
     client, _database, nvidia, ollama = make_client(seeded_database)
     response = client.post(
@@ -141,6 +182,26 @@ def test_query_passes_selected_scope_ids_and_labels_to_provider(seeded_database)
     assert scope.courses == (("COURSE-1", "Course One"),)
 
 
+def test_select_all_mode_reaches_provider_and_history(seeded_database) -> None:
+    client, _database, nvidia, _ollama = make_client(seeded_database)
+
+    response = client.post(
+        "/api/query",
+        json={
+            "question": "Which principles apply?",
+            "provider": "nvidia",
+            "select_all_that_apply": True,
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["select_all_that_apply"] is True
+    assert nvidia.scopes[0].select_all_that_apply is True
+    detail = client.get(f"/api/conversations/{payload['conversation_id']}").json()
+    assert detail["messages"][0]["select_all_that_apply"] is True
+
+
 def test_unfiltered_query_passes_full_effective_scope_to_provider(seeded_database) -> None:
     client, _database, nvidia, _ollama = make_client(seeded_database)
 
@@ -153,6 +214,36 @@ def test_unfiltered_query_passes_full_effective_scope_to_provider(seeded_databas
     scope = nvidia.scopes[0]
     assert scope.sources == (("book-0", "Book 0"), ("book-1", "Book 1"))
     assert scope.courses == (("COURSE-1", "Course One"),)
+
+
+@pytest.mark.parametrize("provider", ["nvidia", "auto"])
+def test_nvidia_query_survives_ollama_embedding_failure_with_fts(
+    seeded_database, provider: str
+) -> None:
+    client, _database, nvidia, ollama = make_client(seeded_database)
+    from textbook_rag.embeddings import EmbeddingError
+
+    def fail(_texts):
+        raise EmbeddingError("Ollama embedding request failed")
+
+    client.app.state.runtime.retriever.embeddings.embed = fail
+    response = client.post(
+        "/api/query",
+        json={"question": "virtual memory", "provider": provider, "source_ids": ["book-0"]},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["actual_provider"] == "nvidia"
+    assert payload["retrieval_fallback_used"] is True
+    assert payload["evidence"][0]["semantic_score"] is None
+    assert payload["evidence"][0]["fts_score"] is not None
+    assert nvidia.calls == 1 and ollama.calls == 0
+
+    detail = client.get(f"/api/conversations/{payload['conversation_id']}").json()
+    assert detail["messages"][1]["status"] == "ok"
+    assert detail["messages"][1]["retrieval_fallback_used"] is True
 
 
 def test_clear_all_requires_confirmation_and_preserves_index(seeded_database) -> None:
@@ -255,7 +346,7 @@ def test_retrieval_failure_persists_paired_assistant_turn(seeded_database) -> No
     client.app.state.runtime.retriever.embeddings.embed = fail
     response = client.post(
         "/api/query",
-        json={"question": "virtual memory", "provider": "auto", "source_ids": ["book-0"]},
+        json={"question": "virtual memory", "provider": "ollama", "source_ids": ["book-0"]},
     )
     assert response.status_code == 503
     conversation = client.get("/api/conversations").json()["conversations"][0]

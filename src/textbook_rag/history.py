@@ -34,13 +34,20 @@ class HistoryStore:
             )
             return new_id
 
-    def append_user(self, conversation_id: str, question: str, choice: ProviderChoice) -> str:
+    def append_user(
+        self,
+        conversation_id: str,
+        question: str,
+        choice: ProviderChoice,
+        *,
+        select_all_that_apply: bool = False,
+    ) -> str:
         message_id = str(uuid4())
         with self.database.transaction() as connection:
             connection.execute(
-                "INSERT INTO messages(id, conversation_id, role, text, provider_choice, status) "
-                "VALUES (?, ?, 'user', ?, ?, 'ok')",
-                (message_id, conversation_id, question, choice),
+                "INSERT INTO messages(id, conversation_id, role, text, provider_choice, select_all_that_apply, status) "
+                "VALUES (?, ?, 'user', ?, ?, ?, 'ok')",
+                (message_id, conversation_id, question, choice, int(select_all_that_apply)),
             )
             connection.execute(
                 "UPDATE conversations SET updated_at=? WHERE id=?", (utc_now(), conversation_id)
@@ -57,6 +64,7 @@ class HistoryStore:
         evidence: tuple[Evidence, ...],
         outcome: ProviderOutcome | None,
         failure: ProviderFailure | None = None,
+        retrieval_fallback_used: bool = False,
     ) -> str:
         message_id = str(uuid4())
         citation_positions = (
@@ -82,8 +90,8 @@ class HistoryStore:
         with self.database.transaction() as connection:
             connection.execute(
                 "INSERT INTO messages(id, conversation_id, role, text, provider_choice, actual_provider, "
-                "fallback_used, initial_failure_kind, status) "
-                "VALUES (?, ?, 'assistant', ?, ?, ?, ?, ?, ?)",
+                "fallback_used, retrieval_fallback_used, initial_failure_kind, status) "
+                "VALUES (?, ?, 'assistant', ?, ?, ?, ?, ?, ?, ?)",
                 (
                     message_id,
                     conversation_id,
@@ -91,6 +99,7 @@ class HistoryStore:
                     choice,
                     actual_provider,
                     int(fallback_used),
+                    int(retrieval_fallback_used),
                     initial_failure_kind,
                     status,
                 ),
@@ -152,6 +161,8 @@ class HistoryStore:
                 ).fetchall()
                 item = dict(message)
                 item["fallback_used"] = bool(item["fallback_used"])
+                item["retrieval_fallback_used"] = bool(item["retrieval_fallback_used"])
+                item["select_all_that_apply"] = bool(item["select_all_that_apply"])
                 item["evidence"] = [dict(row) for row in evidence]
                 result_messages.append(item)
         result = dict(conversation)

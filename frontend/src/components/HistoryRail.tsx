@@ -35,7 +35,7 @@ export function HistoryRail({ conversations, selectedId, mobileOpen, onSelect, o
       {mobileOpen && <button className="drawer-backdrop" aria-label="Close history" onClick={onCloseMobile} />}
       <aside className={`history-rail ${mobileOpen ? "mobile-open" : ""}`} aria-label="Question history">
         <div className="rail-title-row"><h2>History</h2><button className="icon-button mobile-only" onClick={onCloseMobile} aria-label="Close history"><CloseIcon /></button></div>
-        <label className="search-field"><SearchIcon /><span className="sr-only">Find a question</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Find a question" /></label>
+        <label className="search-field"><SearchIcon /><span className="sr-only">Find a question</span><input aria-label="Find a question" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Find a question" /></label>
         <div className="history-list">
           {grouped.size === 0 ? (
             <div className="empty-history"><span aria-hidden="true">◇</span><h3>{search ? "No matching questions" : "Your study trail starts here"}</h3><p>{search ? "Try another phrase." : "Questions you ask will be saved locally on Titan."}</p></div>
@@ -44,16 +44,16 @@ export function HistoryRail({ conversations, selectedId, mobileOpen, onSelect, o
               <h3>{label}</h3>
               {items.map((item) => (
                 <div className={`history-row ${selectedId === item.id ? "selected" : ""}`} key={item.id}>
-                  <button className="history-select" onClick={() => { onSelect(item.id); onCloseMobile(); }}>
+                  <button type="button" className="history-select" onClick={() => { onSelect(item.id); onCloseMobile(); }} aria-current={selectedId === item.id ? "page" : undefined}>
                     <span>{item.title}</span><time>{new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(new Date(item.updatedAt))}</time>
                   </button>
-                  <button className="history-delete icon-button" onClick={() => onDelete(item)} aria-label={`Delete ${item.title}`}><TrashIcon /></button>
+                  <button type="button" className="history-delete icon-button" onClick={() => onDelete(item)} aria-label={`Delete ${item.title}`}><TrashIcon /></button>
                 </div>
               ))}
             </section>
           ))}
         </div>
-        <button className="clear-history text-button" onClick={onClear} disabled={conversations.length === 0}><TrashIcon /> Clear history…</button>
+        <button type="button" className="clear-history text-button" onClick={onClear} disabled={conversations.length === 0}><TrashIcon /> Clear history…</button>
       </aside>
     </>
   );

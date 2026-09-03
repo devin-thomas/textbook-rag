@@ -65,6 +65,52 @@ describe("Textbook Desk", () => {
     expect(JSON.parse(String(queryCall?.[1]?.body))).toMatchObject({ provider: "ollama", question: "Why is semantic HTML important?" });
   });
 
+  it("submits select-all mode and makes the returned answer mode explicit", async () => {
+    const fetchMock = mockApi({
+      status: "ok",
+      answer: "Choose each supported principle. [1]",
+      actual_provider: "nvidia",
+      fallback_used: false,
+      select_all_that_apply: true,
+      citations: [{ id: "1", evidence_id: "chunk-1" }],
+      evidence: [{ id: "chunk-1", source_id: "missing-link-web", source_title: "The Missing Link", physical_page: 64, excerpt: "Several principles are supported.", rank: 1 }],
+    });
+    const user = userEvent.setup();
+    render(<App />);
+
+    const checkbox = screen.getByRole("checkbox", { name: "Select all that apply" });
+    expect(checkbox).not.toBeChecked();
+    await user.click(checkbox);
+    await user.type(screen.getByPlaceholderText("Ask your textbooks…"), "Which principles apply?");
+    await user.click(screen.getByRole("button", { name: "Ask question" }));
+
+    expect(await screen.findByText("Select all that apply mode")).toBeInTheDocument();
+    expect(screen.getByText("Multiple correct answers may be included.")).toBeInTheDocument();
+    const queryCall = fetchMock.mock.calls.find(([url]) => String(url).endsWith("/query"));
+    expect(JSON.parse(String(queryCall?.[1]?.body))).toMatchObject({ select_all_that_apply: true });
+  });
+
+  it("keeps NVIDIA answers working with keyword retrieval when Research is offline", async () => {
+    mockApi({
+      status: "ok",
+      answer: "Virtual memory loads pages into physical memory.",
+      actual_provider: "nvidia",
+      fallback_used: false,
+      retrieval_fallback_used: true,
+      citations: [],
+      evidence: [{ chunk_id: "chunk-1", source_id: "missing-link-web", source_title: "The Missing Link", physical_page: 64, excerpt: "Virtual memory evidence.", rank: 1, semantic_score: null, fts_score: 1 }],
+    });
+    const user = userEvent.setup();
+    render(<App />);
+    await user.type(screen.getByPlaceholderText("Ask your textbooks…"), "How does virtual memory work?");
+    await user.click(screen.getByRole("button", { name: "Ask question" }));
+
+    expect(await screen.findByText(/Virtual memory loads pages/)).toBeInTheDocument();
+    expect(screen.getByText(/Research unavailable/)).toBeInTheDocument();
+    expect(screen.getByText(/keyword search/)).toBeInTheDocument();
+    expect(screen.getByText("NVIDIA", { selector: "strong" })).toBeInTheDocument();
+  });
+
   it("announces an automatic fallback without changing the user selection", async () => {
     mockApi({ status: "answered", answer: "A grounded answer.", actual_provider: "ollama", fallback_used: true, initial_failure_kind: "timeout", citations: [], evidence: [] });
     const user = userEvent.setup();

@@ -29,3 +29,27 @@ Validated on 2026-08-24 against the ImageGen concepts and Figma renders in `desi
 - A physical iPhone was not checked in this session; 390x844 browser acceptance is complete, but real-device Safari/Tailscale behavior remains separate.
 - NVIDIA's hosted endpoint and the Research Ollama host remain operational dependencies; provider throttling or a sleeping Research host must stay visible to the user.
 - Retrieved evidence is intentionally verbatim and can be substantially longer than the edited concept excerpts; the mobile sheet scrolls and wraps it without horizontal overflow.
+
+## 2026-09-03 responsive and accessibility pass
+
+The existing concepts remain the visual reference, with the sans-serif requirement and new query mode treated as explicit product changes. Puppeteer acceptance ran against the real Vite-rendered UI with only the API boundary mocked. Artifacts are written outside the repository to `%TEMP%\\textbook-rag-puppeteer`.
+
+### Above-the-fold copy diff
+
+- Preserved: `Textbook Desk`, `History`, `Your semester library`, `Ask the page, not the whole internet.`, `Try asking`, and `Answers stay inside your textbooks`.
+- Added by request: `Select all that apply`, `Allow more than one correct answer`, and the post-answer `Select all that apply mode` status note.
+- Preserved historical list coverage: `What is virtual memory?`, `Why use semantic HTML?`, and `What distinguishes an estimate from a commitment?`.
+
+### Responsive and interaction checks
+
+- The history rail remains a persistent desktop pane and becomes a dismissible mobile drawer; search, reopen, selected-state marking, and drawer close were exercised.
+- The composer keeps the query-mode checkbox before submission, preserves it after the response, and exposes the mode in the answer status and persisted API payload.
+- Mobile evidence starts as a compact sheet and expands through a 44px control; desktop evidence remains a side panel with the PDF page-view path intact.
+- All application copy and form controls use the IBM Plex Sans stack with visible focus styling; the six viewport checks found no horizontal overflow or undersized interactive control.
+- Accepted profiles: Puppeteer’s iPhone 16 Pro preset `402x681 @3`, Galaxy S21 Ultra `384x854 @3.75`, PC `1280x960`, PC `3840x2160`, PC `1920x2160`, and an emulated M1 MacBook Air “more space” profile `1680x1050 @2`.
+
+### Intentional deviations and gaps
+
+- The serif typography in the original concept was intentionally replaced with sans-serif to satisfy the accessibility requirement.
+- The MacBook Air profile is an emulated browser viewport and device pixel ratio, not physical Safari hardware; real-device behavior remains a separate gate.
+- Puppeteer mocks textbook/API responses so the suite can deterministically verify UI behavior; deployment health and provider availability still require the live-service checks.

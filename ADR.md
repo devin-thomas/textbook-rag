@@ -129,3 +129,13 @@
 **Rationale:** The corpus contains front matter that shifts printed labels from PDF indices. For example, Guide to Parallel Operating Systems physical page 339 is labeled 317.
 
 **Consequences:** Ingestion uses `pypdf` page labels alongside `pdfplumber` extraction. Retrieval, history, and API responses carry both values; tests verify that citation display and viewer navigation cannot be conflated.
+
+## ADR-014 - Keep NVIDIA answers available when semantic retrieval is offline
+
+**Status:** Accepted
+
+**Decision:** When the local Qwen query-embedding request fails, `NVIDIA` and `Auto` may retrieve evidence through the existing SQLite FTS index and continue to generation. Explicit `Ollama` requests continue to surface retrieval unavailability.
+
+**Rationale:** The indexed textbook chunks already have a deterministic lexical search path. Preserving that path lets the selected NVIDIA provider answer when Research is temporarily unreachable without mixing embedding spaces or uploading the corpus to another embedding service.
+
+**Consequences:** FTS-only answers may be less effective for paraphrased questions, so the API and saved message expose a retrieval-fallback flag and the UI identifies the degraded mode. Ingestion still requires Ollama embeddings, and a malformed or dimension-incompatible index remains a hard failure.

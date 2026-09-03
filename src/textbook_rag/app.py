@@ -28,6 +28,7 @@ class QueryRequest(BaseModel):
     course_ids: list[str] = Field(default_factory=list, max_length=8)
     source_ids: list[str] = Field(default_factory=list, max_length=8)
     conversation_id: str | None = Field(default=None, max_length=64)
+    select_all_that_apply: bool = False
 
     @field_validator("question")
     @classmethod
@@ -158,6 +159,7 @@ def _api_router(runtime: Runtime) -> APIRouter:
             source_ids=tuple(dict.fromkeys(payload.source_ids)),
             course_ids=tuple(dict.fromkeys(payload.course_ids)),
             conversation_id=payload.conversation_id,
+            select_all_that_apply=payload.select_all_that_apply,
         )
         return asdict(result)
 

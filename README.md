@@ -100,9 +100,10 @@ Validation:
 npm --prefix frontend run typecheck
 npm --prefix frontend test
 npm --prefix frontend run build
+npm --prefix frontend run test:e2e
 ```
 
-The product route is `http://127.0.0.1:8766/textbooks/`. `Auto` tries NVIDIA first and falls back to Ollama only for a provider failure. Explicit NVIDIA and Ollama selections never switch providers. Embeddings always use local `qwen3-embedding:4b` through the SSH tunnel.
+The product route is `http://127.0.0.1:8766/textbooks/`. `Auto` tries NVIDIA first and falls back to Ollama only for a provider failure. Explicit NVIDIA and Ollama selections never switch generation providers. Queries normally use local `qwen3-embedding:4b` through the SSH tunnel; NVIDIA and Auto can use SQLite FTS-only retrieval when that embedding request is unavailable, with the degraded mode shown in the answer. Before submitting, the composer can mark a question `Select all that apply`; that mode is passed to the grounded provider prompt and restored when the historical question is reopened.
 
 ## Titan auto-start
 
@@ -166,7 +167,7 @@ Inspect before restarting anything:
 ```
 
 - If port `11435` is unavailable, identify the listener; do not kill an unrelated process. `Get-NetTCPConnection -LocalPort 11435 -State Listen` must show only loopback addresses (`127.0.0.1` and, if present, `::1`), never `0.0.0.0` or `::`. A healthy tunnel responds at `http://127.0.0.1:11435/api/tags`.
-- If Research is asleep or offline, ingestion and textbook queries cannot complete because every retrieval query needs the local embedding model. NVIDIA remains the preferred generation provider, but it does not replace local embeddings.
+- If Research is asleep or offline, ingestion still requires the local embedding model. NVIDIA and Auto queries can use the indexed SQLite keyword search as a degraded retrieval path; explicit Ollama queries still surface the retrieval failure.
 - If NVIDIA fails, confirm the key location without printing the key. Explicit NVIDIA surfaces the error; Auto may fall back to Ollama.
 - If the app task repeatedly exits, run `Start-TextbookRag.ps1` interactively to see the actual error, fix it, then restart the scheduled tasks.
 - If the phone cannot connect, confirm both devices are signed into the tailnet and verify Serve status. Do not enable Funnel.

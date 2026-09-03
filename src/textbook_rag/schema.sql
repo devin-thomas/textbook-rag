@@ -85,6 +85,8 @@ CREATE TABLE IF NOT EXISTS messages (
   provider_choice TEXT,
   actual_provider TEXT,
   fallback_used INTEGER NOT NULL DEFAULT 0,
+  retrieval_fallback_used INTEGER NOT NULL DEFAULT 0,
+  select_all_that_apply INTEGER NOT NULL DEFAULT 0,
   initial_failure_kind TEXT,
   status TEXT NOT NULL,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP

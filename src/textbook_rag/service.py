@@ -30,6 +30,8 @@ class QueryResult:
     actual_provider: str | None
     fallback_used: bool
     initial_failure_kind: str | None
+    retrieval_fallback_used: bool
+    select_all_that_apply: bool
     citations: tuple[dict[str, object], ...]
     evidence: tuple[dict[str, object], ...]
 
@@ -55,6 +57,7 @@ class QueryService:
         source_ids: tuple[str, ...] = (),
         course_ids: tuple[str, ...] = (),
         conversation_id: str | None = None,
+        select_all_that_apply: bool = False,
     ) -> QueryResult:
         known_sources = {source.id for source in self.catalog.sources}
         known_courses = {course.id for course in self.catalog.courses}
@@ -63,10 +66,18 @@ class QueryService:
         if not set(course_ids) <= known_courses:
             raise ScopeValidationError("one or more course IDs are not configured")
         conversation_id = self.history.ensure_conversation(conversation_id, question)
-        user_message_id = self.history.append_user(conversation_id, question, choice)
+        user_message_id = self.history.append_user(
+            conversation_id,
+            question,
+            choice,
+            select_all_that_apply=select_all_that_apply,
+        )
         try:
             retrieval = self.retriever.retrieve(
-                question, source_ids=source_ids, course_ids=course_ids
+                question,
+                source_ids=source_ids,
+                course_ids=course_ids,
+                allow_semantic_fallback=choice in {"auto", "nvidia"},
             )
         except (EmbeddingError, RuntimeError):
             self.history.append_assistant(
@@ -76,6 +87,7 @@ class QueryService:
                 status="retrieval_unavailable",
                 evidence=(),
                 outcome=None,
+                retrieval_fallback_used=False,
             )
             raise
         evidence_dicts = tuple(item.to_dict() for item in retrieval.evidence)
@@ -88,6 +100,7 @@ class QueryService:
                 status="insufficient_evidence",
                 evidence=retrieval.evidence,
                 outcome=None,
+                retrieval_fallback_used=retrieval.semantic_fallback_used,
             )
             return QueryResult(
                 status="insufficient_evidence",
@@ -99,6 +112,8 @@ class QueryService:
                 actual_provider=None,
                 fallback_used=False,
                 initial_failure_kind=None,
+                retrieval_fallback_used=retrieval.semantic_fallback_used,
+                select_all_that_apply=select_all_that_apply,
                 citations=(),
                 evidence=evidence_dicts,
             )
@@ -128,6 +143,7 @@ class QueryService:
                     (course_id, course_names[course_id])
                     for course_id in effective_course_ids
                 ),
+                select_all_that_apply=select_all_that_apply,
             )
             outcome = self.providers.generate(choice, question, retrieval.evidence, scope)
         except ProviderFailure as exc:
@@ -139,6 +155,7 @@ class QueryService:
                 evidence=retrieval.evidence,
                 outcome=None,
                 failure=exc,
+                retrieval_fallback_used=retrieval.semantic_fallback_used,
             )
             raise
         assistant_message_id = self.history.append_assistant(
@@ -148,6 +165,7 @@ class QueryService:
             status=outcome.answer.status,
             evidence=retrieval.evidence,
             outcome=outcome,
+            retrieval_fallback_used=retrieval.semantic_fallback_used,
         )
         evidence_by_id = {item.chunk_id: item for item in retrieval.evidence}
         citations = tuple(
@@ -172,6 +190,8 @@ class QueryService:
             actual_provider=outcome.actual_provider,
             fallback_used=outcome.fallback_used,
             initial_failure_kind=outcome.initial_failure_kind,
+            retrieval_fallback_used=retrieval.semantic_fallback_used,
+            select_all_that_apply=select_all_that_apply,
             citations=citations,
             evidence=evidence_dicts,
         )

@@ -135,6 +135,8 @@ export async function queryTextbooks(body: QueryRequest): Promise<Answer> {
     actualProvider,
     fallback: Boolean(raw.fallback_used ?? raw.fallback ?? provider.fallback ?? provider.did_fallback),
     fallbackReason: text(raw.initial_failure_kind, raw.fallback_reason, provider.fallback_reason, provider.reason) || undefined,
+    retrievalFallback: Boolean(raw.retrieval_fallback_used ?? raw.retrieval_fallback),
+    selectAllThatApply: Boolean(raw.select_all_that_apply),
     conversationId: text(raw.conversation_id) || undefined,
     messageId: text(raw.assistant_message_id, raw.message_id) || undefined,
   };
@@ -181,6 +183,8 @@ export async function getConversation(id: string): Promise<Answer> {
       evidence: [],
       requestedProvider: (text(danglingUser?.provider_choice, "auto").toLowerCase()) as ProviderChoice,
       fallback: false,
+      retrievalFallback: false,
+      selectAllThatApply: Boolean(danglingUser?.select_all_that_apply),
       conversationId: id,
       error: "This saved question did not finish. You can ask it again.",
     };
@@ -205,6 +209,8 @@ export async function getConversation(id: string): Promise<Answer> {
     actualProvider: (provider || undefined) as "nvidia" | "ollama" | undefined,
     fallback: Boolean(assistant?.fallback_used ?? assistant?.fallback),
     fallbackReason: text(assistant?.initial_failure_kind, assistant?.fallback_reason) || undefined,
+    retrievalFallback: Boolean(assistant?.retrieval_fallback_used ?? assistant?.retrieval_fallback),
+    selectAllThatApply: Boolean(user?.select_all_that_apply ?? assistant?.select_all_that_apply),
     conversationId: id,
     messageId: text(assistant?.id) || undefined,
     error: status === "error" ? assistantText || "This saved question could not be completed." : undefined,

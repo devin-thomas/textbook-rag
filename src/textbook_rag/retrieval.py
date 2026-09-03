@@ -9,7 +9,7 @@ from typing import Any
 import numpy as np
 
 from .db import Database
-from .embeddings import OllamaEmbeddingClient
+from .embeddings import EmbeddingError, OllamaEmbeddingClient
 
 
 _DIVERSITY_NEAR_TIE_RATIO = 0.95
@@ -37,6 +37,7 @@ class RetrievalResult:
     status: str
     evidence: tuple[Evidence, ...]
     top_semantic_score: float | None
+    semantic_fallback_used: bool = False
 
 
 def _scope_clause(
@@ -131,6 +132,7 @@ class HybridRetriever:
         *,
         source_ids: tuple[str, ...] = (),
         course_ids: tuple[str, ...] = (),
+        allow_semantic_fallback: bool = False,
     ) -> RetrievalResult:
         if outside_static_textbook_scope(question):
             return RetrievalResult("insufficient_evidence", (), None)
@@ -146,27 +148,49 @@ class HybridRetriever:
             ).fetchall()
             if not rows:
                 return RetrievalResult("insufficient_evidence", (), None)
-            dimensions = {int(row["embedding_dimension"]) for row in rows}
-            if dimensions != {self.embeddings.expected_dimension}:
-                raise RuntimeError("index contains an unexpected embedding dimension")
-            query = self.embeddings.embed([question])[0]
-            matrix = np.vstack(
-                [np.frombuffer(row["embedding"], dtype="<f4", count=self.embeddings.expected_dimension) for row in rows]
-            )
-            matrix_norms = np.linalg.norm(matrix, axis=1)
-            query_norm = float(np.linalg.norm(query))
-            denominators = matrix_norms * query_norm
-            similarities = np.divide(
-                matrix @ query,
-                denominators,
-                out=np.zeros(len(rows), dtype=np.float32),
-                where=denominators > 0,
-            )
-            semantic_order = sorted(
-                range(len(rows)), key=lambda index: (-float(similarities[index]), rows[index]["id"])
-            )[: self.semantic_candidates]
-            semantic_rank = {rows[index]["id"]: rank for rank, index in enumerate(semantic_order, 1)}
-            semantic_score = {rows[index]["id"]: float(similarities[index]) for index in semantic_order}
+            semantic_rank: dict[str, int] = {}
+            semantic_score: dict[str, float] = {}
+            semantic_fallback_used = False
+            try:
+                dimensions = {int(row["embedding_dimension"]) for row in rows}
+                if dimensions != {self.embeddings.expected_dimension}:
+                    raise RuntimeError("index contains an unexpected embedding dimension")
+                query = self.embeddings.embed([question])[0]
+                matrix = np.vstack(
+                    [
+                        np.frombuffer(
+                            row["embedding"],
+                            dtype="<f4",
+                            count=self.embeddings.expected_dimension,
+                        )
+                        for row in rows
+                    ]
+                )
+                matrix_norms = np.linalg.norm(matrix, axis=1)
+                query_norm = float(np.linalg.norm(query))
+                denominators = matrix_norms * query_norm
+                similarities = np.divide(
+                    matrix @ query,
+                    denominators,
+                    out=np.zeros(len(rows), dtype=np.float32),
+                    where=denominators > 0,
+                )
+                semantic_order = sorted(
+                    range(len(rows)),
+                    key=lambda index: (-float(similarities[index]), rows[index]["id"]),
+                )[: self.semantic_candidates]
+                semantic_rank = {
+                    rows[index]["id"]: rank
+                    for rank, index in enumerate(semantic_order, 1)
+                }
+                semantic_score = {
+                    rows[index]["id"]: float(similarities[index])
+                    for index in semantic_order
+                }
+            except EmbeddingError:
+                if not allow_semantic_fallback:
+                    raise
+                semantic_fallback_used = True
 
             fts_score: dict[str, float] = {}
             fts_rank: dict[str, int] = {}
@@ -190,7 +214,11 @@ class HybridRetriever:
                     fts_score[row["id"]] = -float(row["raw_score"])
 
         top_semantic = max(semantic_score.values(), default=None)
-        if top_semantic is None or top_semantic < self.min_semantic_score:
+        if semantic_fallback_used and not fts_rank:
+            return RetrievalResult("insufficient_evidence", (), None, True)
+        if not semantic_fallback_used and (
+            top_semantic is None or top_semantic < self.min_semantic_score
+        ):
             return RetrievalResult("insufficient_evidence", (), top_semantic)
         fused: dict[str, float] = {}
         for chunk_id, rank in semantic_rank.items():
@@ -245,4 +273,4 @@ class HybridRetriever:
             )
             for rank, chunk_id in enumerate(ordered, 1)
         )
-        return RetrievalResult("ok", evidence, top_semantic)
+        return RetrievalResult("ok", evidence, top_semantic, semantic_fallback_used)

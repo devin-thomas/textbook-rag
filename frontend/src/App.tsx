@@ -6,7 +6,7 @@ import { ConfirmDialog } from "./components/ConfirmDialog";
 import { EvidencePanel } from "./components/EvidencePanel";
 import { HistoryRail } from "./components/HistoryRail";
 import { ScopePopover } from "./components/ScopePopover";
-import { BookIcon, FilterIcon, MenuIcon, PlusIcon, SendIcon } from "./icons";
+import { BookIcon, ChevronIcon, FilterIcon, MenuIcon, PlusIcon, SendIcon } from "./icons";
 import type { Answer, AnswerStatus, ConversationSummary, Evidence, ProviderChoice, Source } from "./types";
 
 type DeleteTarget = ConversationSummary | "all" | undefined;
@@ -22,6 +22,7 @@ function scopeLabel(courseIds: string[], sourceIds: string[], sources: Source[])
 export default function App() {
   const [provider, setProvider] = useState<ProviderChoice>("auto");
   const [question, setQuestion] = useState("");
+  const [selectAllThatApply, setSelectAllThatApply] = useState(false);
   const [sources, setSources] = useState<Source[]>(FALLBACK_SOURCES);
   const [courseIds, setCourseIds] = useState<string[]>([]);
   const [sourceIds, setSourceIds] = useState<string[]>([]);
@@ -62,6 +63,7 @@ export default function App() {
 
   const reset = () => {
     setQuestion("");
+    setSelectAllThatApply(false);
     setAnswer(undefined);
     setStatus("idle");
     setSelectedConversationId(undefined);
@@ -88,6 +90,7 @@ export default function App() {
         course_ids: courseIds.length ? courseIds : undefined,
         source_ids: sourceIds.length ? sourceIds : undefined,
         conversation_id: selectedConversationId,
+        select_all_that_apply: selectAllThatApply,
       });
       setAnswer(result);
       setStatus(result.status);
@@ -97,7 +100,7 @@ export default function App() {
       await refreshConversations();
     } catch (error) {
       const message = error instanceof ApiError ? error.message : "The textbook service is unavailable right now.";
-      setAnswer({ status: "error", question: trimmed, text: "", citations: [], evidence: [], requestedProvider: provider, fallback: false, error: message });
+      setAnswer({ status: "error", question: trimmed, text: "", citations: [], evidence: [], requestedProvider: provider, fallback: false, retrievalFallback: false, selectAllThatApply, error: message });
       setStatus("error");
     }
   };
@@ -112,10 +115,11 @@ export default function App() {
       setAnswer(result);
       setStatus(result.status);
       setProvider(result.requestedProvider);
+      setSelectAllThatApply(result.selectAllThatApply);
       setEvidenceVisible(result.evidence.length > 0);
       setActiveEvidence(undefined);
     } catch (error) {
-      setAnswer({ status: "error", question: "Saved question", text: "", citations: [], evidence: [], requestedProvider: provider, fallback: false, error: error instanceof Error ? error.message : "Could not load this question." });
+      setAnswer({ status: "error", question: "Saved question", text: "", citations: [], evidence: [], requestedProvider: provider, fallback: false, retrievalFallback: false, selectAllThatApply: false, error: error instanceof Error ? error.message : "Could not load this question." });
       setStatus("error");
     }
   };
@@ -150,22 +154,29 @@ export default function App() {
       <header className="topbar">
         <button className="icon-button mobile-only" onClick={() => setHistoryOpen(true)} aria-label="Open history"><MenuIcon /></button>
         <a className="brand" href="/textbooks/" onClick={(event) => { event.preventDefault(); reset(); }}>Textbook Desk</a>
-        <button className="scope-top desktop-only" onClick={() => setScopeOpen(true)}><BookIcon /> {selectedScope} <span>⌄</span></button>
+        <button type="button" className="scope-top desktop-only" onClick={() => setScopeOpen(true)} aria-expanded={scopeOpen} aria-label={`Textbook scope: ${selectedScope}`}><BookIcon /><span>{selectedScope}</span><ChevronIcon className="chevron-down" /></button>
         <label className="provider-select"><span className="desktop-only">Provider</span><select value={provider} onChange={(event) => setProvider(event.target.value as ProviderChoice)} aria-label="Answer provider"><option value="auto">Auto</option><option value="nvidia">NVIDIA</option><option value="ollama">Ollama</option></select></label>
         <span className="research-status desktop-only" data-state={researchHealth}><i /> {researchHealth === "checking" ? "Checking Research…" : researchHealth === "configured" ? "Research configured" : "Research unavailable"}</span>
-        <button className="new-question" onClick={reset}><PlusIcon /><span className="desktop-only">New question</span></button>
+        <button type="button" className="new-question" onClick={reset} aria-label="New question"><PlusIcon /><span className="desktop-only">New question</span></button>
       </header>
 
       <div className={`workspace ${evidenceVisible ? "has-evidence" : ""}`}>
         <HistoryRail conversations={conversations} selectedId={selectedConversationId} mobileOpen={historyOpen} onSelect={openConversation} onDelete={setDeleteTarget} onClear={() => setDeleteTarget("all")} onCloseMobile={() => setHistoryOpen(false)} />
         <main className="answer-pane">
           <AnswerView status={status} answer={answer} loadingQuestion={loadingQuestion} loadingStep={loadingStep} onCitation={openCitation} onShowEvidence={() => { setEvidenceVisible(true); setMobileEvidenceExpanded(true); }} />
-          <form className="composer" onSubmit={submit}>
+          <form className="composer" onSubmit={submit} aria-label="Ask your textbooks">
             <div className="privacy-note"><span aria-hidden="true">◇</span> Answers stay inside your textbooks</div>
             <div className="composer-box">
-              <label><span className="sr-only">Ask your textbooks</span><textarea value={question} onChange={(event) => setQuestion(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="Ask your textbooks…" rows={2} maxLength={4000} /></label>
+              <label className="question-field"><span className="sr-only">Ask your textbooks</span><textarea value={question} onChange={(event) => setQuestion(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} placeholder="Ask your textbooks…" rows={2} maxLength={4000} /></label>
+              <div className="composer-mode-row">
+                <label className="mode-toggle" htmlFor="select-all-that-apply">
+                  <input id="select-all-that-apply" type="checkbox" checked={selectAllThatApply} onChange={(event) => setSelectAllThatApply(event.target.checked)} aria-label="Select all that apply" aria-describedby="select-all-hint" />
+                  <span className="mode-copy"><strong>Select all that apply</strong><small id="select-all-hint">Allow more than one correct answer</small></span>
+                </label>
+                <span className="mode-optional">Optional</span>
+              </div>
               <div className="composer-controls">
-                <button type="button" className="scope-button" onClick={() => setScopeOpen(!scopeOpen)} aria-expanded={scopeOpen}><FilterIcon /> <span>{selectedScope}</span> <span>⌄</span></button>
+                <button type="button" className="scope-button" onClick={() => setScopeOpen(!scopeOpen)} aria-expanded={scopeOpen} aria-label={`Choose textbook scope, currently ${selectedScope}`}><FilterIcon /><span>{selectedScope}</span><ChevronIcon className="chevron-down" /></button>
                 <button className="send-button" type="submit" disabled={!question.trim() || status === "loading"} aria-label="Ask question"><SendIcon /></button>
               </div>
               <ScopePopover open={scopeOpen} sources={sources} courseIds={courseIds} sourceIds={sourceIds} onCourseIds={setCourseIds} onSourceIds={setSourceIds} onClose={() => setScopeOpen(false)} />

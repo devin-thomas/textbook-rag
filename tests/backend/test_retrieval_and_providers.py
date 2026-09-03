@@ -16,6 +16,7 @@ from textbook_rag.providers import (
     NvidiaProvider,
     _decode_answer,
 )
+from textbook_rag.embeddings import EmbeddingError
 from textbook_rag.retrieval import Evidence, HybridRetriever, outside_static_textbook_scope
 
 from conftest import FakeEmbeddings
@@ -38,6 +39,38 @@ def test_low_similarity_abstains_without_evidence(seeded_database) -> None:
     result = HybridRetriever(database, embeddings, min_semantic_score=.5).retrieve("cafeteria hours")
     assert result.status == "insufficient_evidence"
     assert result.evidence == ()
+
+
+def test_embedding_failure_can_fall_back_to_fts_for_nvidia(seeded_database) -> None:
+    database, _catalog = seeded_database
+    embeddings = FakeEmbeddings()
+
+    def fail(_texts):
+        raise EmbeddingError("Ollama embedding request failed")
+
+    embeddings.embed = fail
+    result = HybridRetriever(database, embeddings, min_semantic_score=.5).retrieve(
+        "virtual memory", allow_semantic_fallback=True
+    )
+
+    assert result.status == "ok"
+    assert result.semantic_fallback_used is True
+    assert result.top_semantic_score is None
+    assert result.evidence[0].chunk_id == "chunk-0"
+    assert result.evidence[0].semantic_score is None
+    assert result.evidence[0].fts_score is not None
+
+
+def test_embedding_failure_still_raises_without_fallback_permission(seeded_database) -> None:
+    database, _catalog = seeded_database
+    embeddings = FakeEmbeddings()
+
+    def fail(_texts):
+        raise EmbeddingError("Ollama embedding request failed")
+
+    embeddings.embed = fail
+    with pytest.raises(EmbeddingError, match="Ollama embedding request failed"):
+        HybridRetriever(database, embeddings).retrieve("virtual memory")
 
 
 @pytest.mark.parametrize(
@@ -219,6 +252,7 @@ def test_provider_prompt_includes_selected_scope_ids_and_labels() -> None:
     scope = ProviderScope(
         sources=(("book-0", "Book 0"),),
         courses=(("COURSE-1", "Course One"),),
+        select_all_that_apply=True,
     )
 
     provider.generate("question", (), scope)
@@ -228,6 +262,8 @@ def test_provider_prompt_includes_selected_scope_ids_and_labels() -> None:
     assert "COURSE-1: Course One" in prompt
     system_prompt = captured["messages"][0]["content"]
     assert "answer text must not contain chunk IDs" in system_prompt
+    assert "SELECT ALL THAT APPLY" in system_prompt
+    assert "every distinct correct option" in system_prompt
 
 
 def test_removed_catalog_source_is_retired_and_not_retrieved(seeded_database) -> None:

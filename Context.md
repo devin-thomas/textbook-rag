@@ -37,7 +37,7 @@ The two screenshots establish the Fall 2026 course list and LMS course identifie
 - Mount the application at `/textbooks` so the existing NVIDIA dialogue dashboard remains available at the Tailscale Serve root.
 - Run the application and its Ollama SSH tunnel automatically on `titan`. It is acceptable for the app to be unavailable while `titan` is sleeping or powered off.
 - Store conversation history locally on `titan` and provide a user-controlled deletion action.
-- Use `qwen3-embedding:4b` for every query regardless of which generation provider answers, keeping one stable local retrieval index.
+- Use `qwen3-embedding:4b` for normal query retrieval regardless of which generation provider answers, keeping one stable local retrieval index. If that local query embedding is unavailable, NVIDIA and Auto may use the existing SQLite FTS index instead.
 - Make every answer concise by default, with source/page citations and an expandable evidence area containing the retrieved textbook passages.
 - Open citations inside the application at the exact original PDF page.
 - Allow deletion of an individual conversation and deletion of all conversations after explicit confirmation.

@@ -56,6 +56,7 @@ class ProviderOutcome:
 class ProviderScope:
     sources: tuple[tuple[str, str], ...] = ()
     courses: tuple[tuple[str, str], ...] = ()
+    select_all_that_apply: bool = False
 
 
 class GenerationProvider(Protocol):
@@ -88,13 +89,21 @@ def _prompt(
         f"PDF_PAGE: {item.physical_page}\nBOOK_LABEL: {item.page_label}\nTEXT:\n{item.excerpt}"
         for item in evidence
     )
+    mode = (
+        " The user marked this as SELECT ALL THAT APPLY. Return every distinct correct option "
+        "supported by the excerpts as a concise numbered or bulleted list; do not stop after "
+        "the first valid option. Cite the supporting chunk IDs for each option."
+        if scope.select_all_that_apply
+        else " The user asked a standard question. Return one concise answer unless the excerpts clearly require a list."
+    )
     system = (
         "You answer only from the supplied textbook excerpts. Keep the answer concise. "
         "Every factual claim must be supported by a cited CHUNK_ID. If the excerpts are not "
         "enough, abstain. Put CHUNK_ID values only in the citations array; the answer text must "
         "not contain chunk IDs, bracketed citation markers, or internal retrieval metadata. "
         "Never invent a title, page, quote, or citation. Return only JSON: "
-        '{"status":"ok|insufficient_evidence","answer":"...","citations":["exact chunk id"]}.'
+        '{"status":"ok|insufficient_evidence","answer":"...","citations":["exact chunk id"]}. '
+        + mode
     )
     return [
         {"role": "system", "content": system},

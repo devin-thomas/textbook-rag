@@ -56,6 +56,8 @@ export interface Answer {
   actualProvider?: "nvidia" | "ollama";
   fallback: boolean;
   fallbackReason?: string;
+  retrievalFallback: boolean;
+  selectAllThatApply: boolean;
   conversationId?: string;
   messageId?: string;
   error?: string;
@@ -73,4 +75,5 @@ export interface QueryRequest {
   course_ids?: string[];
   source_ids?: string[];
   conversation_id?: string;
+  select_all_that_apply?: boolean;
 }
