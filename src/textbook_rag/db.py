@@ -30,6 +30,7 @@ class Database:
             self._migrate_message_initial_failure(connection)
             self._migrate_message_retrieval_fallback(connection)
             self._migrate_message_select_all_mode(connection)
+            self._migrate_conversation_course_scope(connection)
             configured_source_ids = tuple(source.id for source in catalog.sources)
             placeholders = ",".join("?" for _ in configured_source_ids)
             connection.execute(
@@ -179,6 +180,21 @@ class Database:
                 "ALTER TABLE messages ADD COLUMN select_all_that_apply INTEGER NOT NULL DEFAULT 0"
             )
         connection.execute("INSERT INTO schema_migrations(version) VALUES (6)")
+
+    @staticmethod
+    def _migrate_conversation_course_scope(connection: sqlite3.Connection) -> None:
+        if connection.execute(
+            "SELECT 1 FROM schema_migrations WHERE version=7"
+        ).fetchone():
+            return
+        columns = {
+            row["name"] for row in connection.execute("PRAGMA table_info(conversations)").fetchall()
+        }
+        if "course_ids" not in columns:
+            connection.execute(
+                "ALTER TABLE conversations ADD COLUMN course_ids TEXT NOT NULL DEFAULT '[]'"
+            )
+        connection.execute("INSERT INTO schema_migrations(version) VALUES (7)")
 
     @contextmanager
     def transaction(self) -> Iterator[sqlite3.Connection]:

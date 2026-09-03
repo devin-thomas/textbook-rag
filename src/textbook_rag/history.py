@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 import sqlite3
 from uuid import uuid4
 
@@ -16,6 +17,18 @@ class HistoryNotFound(KeyError):
 class HistoryStore:
     def __init__(self, database: Database):
         self.database = database
+
+    @staticmethod
+    def _decode_course_ids(value: object) -> list[str]:
+        if not isinstance(value, str):
+            return []
+        try:
+            decoded = json.loads(value)
+        except json.JSONDecodeError:
+            return []
+        if not isinstance(decoded, list):
+            return []
+        return [item for item in decoded if isinstance(item, str)]
 
     def ensure_conversation(self, conversation_id: str | None, question: str) -> str:
         with self.database.transaction() as connection:
@@ -40,6 +53,7 @@ class HistoryStore:
         question: str,
         choice: ProviderChoice,
         *,
+        course_ids: tuple[str, ...] = (),
         select_all_that_apply: bool = False,
     ) -> str:
         message_id = str(uuid4())
@@ -50,7 +64,8 @@ class HistoryStore:
                 (message_id, conversation_id, question, choice, int(select_all_that_apply)),
             )
             connection.execute(
-                "UPDATE conversations SET updated_at=? WHERE id=?", (utc_now(), conversation_id)
+                "UPDATE conversations SET updated_at=?, course_ids=? WHERE id=?",
+                (utc_now(), json.dumps(list(dict.fromkeys(course_ids))), conversation_id),
             )
         return message_id
 
@@ -134,11 +149,27 @@ class HistoryStore:
     def list(self) -> list[dict[str, object]]:
         with self.database.connect() as connection:
             rows = connection.execute(
-                "SELECT c.id, c.title, c.created_at, c.updated_at, COUNT(m.id) AS message_count "
+                "SELECT c.id, c.title, c.course_ids, c.created_at, c.updated_at, "
+                "COUNT(m.id) AS message_count, "
+                "(SELECT latest_user.provider_choice FROM messages latest_user "
+                " WHERE latest_user.conversation_id=c.id AND latest_user.role='user' "
+                " ORDER BY latest_user.created_at DESC, latest_user.rowid DESC LIMIT 1) AS provider_choice, "
+                "(SELECT latest_assistant.actual_provider FROM messages latest_assistant "
+                " WHERE latest_assistant.conversation_id=c.id AND latest_assistant.role='assistant' "
+                " ORDER BY latest_assistant.created_at DESC, latest_assistant.rowid DESC LIMIT 1) AS actual_provider, "
+                "(SELECT latest_mode.select_all_that_apply FROM messages latest_mode "
+                " WHERE latest_mode.conversation_id=c.id AND latest_mode.role='user' "
+                " ORDER BY latest_mode.created_at DESC, latest_mode.rowid DESC LIMIT 1) AS select_all_that_apply "
                 "FROM conversations c LEFT JOIN messages m ON m.conversation_id=c.id "
                 "GROUP BY c.id ORDER BY c.updated_at DESC, c.id"
             ).fetchall()
-        return [dict(row) for row in rows]
+        result = []
+        for row in rows:
+            item = dict(row)
+            item["course_ids"] = self._decode_course_ids(item.get("course_ids"))
+            item["select_all_that_apply"] = bool(item.get("select_all_that_apply"))
+            result.append(item)
+        return result
 
     def detail(self, conversation_id: str) -> dict[str, object]:
         with self.database.connect() as connection:
@@ -166,6 +197,7 @@ class HistoryStore:
                 item["evidence"] = [dict(row) for row in evidence]
                 result_messages.append(item)
         result = dict(conversation)
+        result["course_ids"] = self._decode_course_ids(result.get("course_ids"))
         result["messages"] = result_messages
         return result
 

@@ -142,6 +142,26 @@ def test_database_migrates_select_all_mode_column(seeded_database) -> None:
     assert migration is not None
 
 
+def test_database_migrates_conversation_course_scope_column(seeded_database) -> None:
+    database, catalog = seeded_database
+    with database.connect() as connection:
+        connection.execute("DELETE FROM schema_migrations WHERE version=7")
+        connection.execute("ALTER TABLE conversations DROP COLUMN course_ids")
+        connection.commit()
+
+    database.initialize(catalog)
+
+    with database.connect() as connection:
+        columns = {
+            row["name"] for row in connection.execute("PRAGMA table_info(conversations)").fetchall()
+        }
+        migration = connection.execute(
+            "SELECT 1 FROM schema_migrations WHERE version=7"
+        ).fetchone()
+    assert "course_ids" in columns
+    assert migration is not None
+
+
 def test_query_persists_provider_citations_and_ranked_evidence(seeded_database) -> None:
     client, _database, nvidia, ollama = make_client(seeded_database)
     response = client.post(
@@ -200,6 +220,29 @@ def test_select_all_mode_reaches_provider_and_history(seeded_database) -> None:
     assert nvidia.scopes[0].select_all_that_apply is True
     detail = client.get(f"/api/conversations/{payload['conversation_id']}").json()
     assert detail["messages"][0]["select_all_that_apply"] is True
+
+
+def test_history_list_returns_filter_metadata(seeded_database) -> None:
+    client, _database, _nvidia, _ollama = make_client(seeded_database)
+
+    query = client.post(
+        "/api/query",
+        json={
+            "question": "Which principles apply?",
+            "provider": "nvidia",
+            "course_ids": ["COURSE-1"],
+            "select_all_that_apply": True,
+        },
+    )
+    assert query.status_code == 200
+
+    conversations = client.get("/api/conversations").json()["conversations"]
+    assert len(conversations) == 1
+    summary = conversations[0]
+    assert summary["course_ids"] == ["COURSE-1"]
+    assert summary["provider_choice"] == "nvidia"
+    assert summary["actual_provider"] == "nvidia"
+    assert summary["select_all_that_apply"] is True
 
 
 def test_unfiltered_query_passes_full_effective_scope_to_provider(seeded_database) -> None:

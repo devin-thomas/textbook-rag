@@ -65,11 +65,30 @@ class QueryService:
             raise ScopeValidationError("one or more source IDs are not configured")
         if not set(course_ids) <= known_courses:
             raise ScopeValidationError("one or more course IDs are not configured")
+        requested_sources = set(source_ids)
+        requested_courses = set(course_ids)
+        effective_sources = tuple(
+            source
+            for source in self.catalog.sources
+            if (not requested_sources or source.id in requested_sources)
+            and (
+                not requested_courses
+                or bool(requested_courses.intersection(source.course_ids))
+            )
+        )
+        effective_course_ids = course_ids or tuple(
+            dict.fromkeys(
+                course_id
+                for source in effective_sources
+                for course_id in source.course_ids
+            )
+        )
         conversation_id = self.history.ensure_conversation(conversation_id, question)
         user_message_id = self.history.append_user(
             conversation_id,
             question,
             choice,
+            course_ids=effective_course_ids,
             select_all_that_apply=select_all_that_apply,
         )
         try:
@@ -118,24 +137,6 @@ class QueryService:
                 evidence=evidence_dicts,
             )
         try:
-            requested_sources = set(source_ids)
-            requested_courses = set(course_ids)
-            effective_sources = tuple(
-                source
-                for source in self.catalog.sources
-                if (not requested_sources or source.id in requested_sources)
-                and (
-                    not requested_courses
-                    or bool(requested_courses.intersection(source.course_ids))
-                )
-            )
-            effective_course_ids = course_ids or tuple(
-                dict.fromkeys(
-                    course_id
-                    for source in effective_sources
-                    for course_id in source.course_ids
-                )
-            )
             course_names = {course.id: course.name for course in self.catalog.courses}
             scope = ProviderScope(
                 sources=tuple((source.id, source.title) for source in effective_sources),
