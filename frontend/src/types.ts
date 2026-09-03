@@ -67,6 +67,10 @@ export interface ConversationSummary {
   id: string;
   title: string;
   updatedAt: string;
+  courseIds?: string[];
+  providerChoice?: ProviderChoice;
+  actualProvider?: "nvidia" | "ollama";
+  selectAllThatApply?: boolean;
 }
 
 export interface QueryRequest {

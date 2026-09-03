@@ -151,7 +151,7 @@ After the services are running, verify loopback and tailnet routes:
 
 ## History and textbook data
 
-Conversation history lives only in the local SQLite database on Titan. Delete a single conversation from its history action. `Clear all history` requires confirmation and removes conversation/message/evidence records without deleting source pages or the index.
+Conversation history lives only in the local SQLite database on Titan. The history rail supports local search and client-side filters for course, provider, answer mode, and date range while keeping the newest-first order. Delete a single conversation from its history action. `Clear all history` requires confirmation and removes conversation/message/evidence records without deleting source pages or the index.
 
 The original PDF files, extracted pages, embeddings, database, logs, and secrets remain local and ignored by Git. Reproducible ingestion and retrieval evaluation reports are project deliverables and may be checked in after review. NVIDIA receives the question and selected excerpts only when NVIDIA actually handles a request.
 

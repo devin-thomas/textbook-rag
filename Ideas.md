@@ -5,11 +5,11 @@
 - Automated synchronization from the college LMS.
 - Optional detailed tutor mode beyond the concise-answer default.
 
-## Planned: History filters and saved views
+## Implemented: History filters and saved views
 
-Not implemented in this release. Add a small filter control above the historical question list so the student can filter saved questions by course, provider, answer mode, or date range without losing the current newest-first history order.
+The history rail now provides a keyboard-accessible filter control so the student can filter saved questions by course, provider, answer mode, or date range without losing the current newest-first history order. Filter state stays in the client, while the API returns the conversation metadata needed to make the view accurate.
 
-Implementation plan:
+Delivered:
 
 1. Return the existing conversation metadata needed for filtering, keeping the current conversation and message APIs backward compatible.
 2. Keep the first pass client-side so filtering remains private, fast, and usable offline after history has loaded.

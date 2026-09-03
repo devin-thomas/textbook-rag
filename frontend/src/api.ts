@@ -29,6 +29,29 @@ function array(value: unknown): unknown[] {
   return Array.isArray(value) ? value : [];
 }
 
+function stringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string");
+  }
+  if (typeof value !== "string") return [];
+  try {
+    return stringArray(JSON.parse(value));
+  } catch (error) {
+    if (error instanceof SyntaxError) return [];
+    throw error;
+  }
+}
+
+function providerChoice(...values: unknown[]): ProviderChoice {
+  const normalized = text(...values).toLowerCase();
+  return normalized === "nvidia" || normalized === "ollama" ? normalized : "auto";
+}
+
+function actualProvider(value: unknown): "nvidia" | "ollama" | undefined {
+  const normalized = text(value).toLowerCase();
+  return normalized === "nvidia" || normalized === "ollama" ? normalized : undefined;
+}
+
 function historyAnswerStatus(rawStatus: string, actualProvider?: string): Answer["status"] {
   if (rawStatus === "abstained" || rawStatus.includes("insufficient")) {
     return actualProvider ? "provider_abstention" : "insufficient_evidence";
@@ -151,6 +174,10 @@ export async function getConversations(): Promise<ConversationSummary[]> {
       id: text(item.id, item.conversation_id),
       title: text(item.title, item.question, "Untitled question"),
       updatedAt: text(item.updated_at, item.created_at, new Date().toISOString()),
+      courseIds: stringArray(item.course_ids),
+      providerChoice: providerChoice(item.provider_choice, item.requested_provider),
+      actualProvider: actualProvider(item.actual_provider),
+      selectAllThatApply: Boolean(item.select_all_that_apply),
     };
   });
 }

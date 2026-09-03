@@ -57,9 +57,9 @@ const sources = {
 };
 
 const historicalConversations = [
-  { id: "history-virtual", title: "What is virtual memory?", updated_at: "2026-09-02T15:04:00Z" },
-  { id: "history-html", title: "Why use semantic HTML?", updated_at: "2026-09-01T16:15:00Z" },
-  { id: "history-commitment", title: "What distinguishes an estimate from a commitment?", updated_at: "2026-08-30T11:03:00Z" },
+  { id: "history-virtual", title: "What is virtual memory?", updated_at: "2026-09-02T15:04:00Z", course_ids: ["ITSC-1305"], provider_choice: "auto", actual_provider: "nvidia", select_all_that_apply: false },
+  { id: "history-html", title: "Why use semantic HTML?", updated_at: "2026-09-01T16:15:00Z", course_ids: ["ITSE-1311"], provider_choice: "ollama", actual_provider: "ollama", select_all_that_apply: true },
+  { id: "history-commitment", title: "What distinguishes an estimate from a commitment?", updated_at: "2026-08-30T11:03:00Z", course_ids: ["INEW-2330"], provider_choice: "nvidia", actual_provider: "nvidia", select_all_that_apply: false },
 ];
 
 const evidence = [
@@ -119,6 +119,27 @@ const historyDetail = {
   ],
 };
 
+const historyHtmlDetail = {
+  id: "history-html",
+  title: "Why use semantic HTML?",
+  messages: [
+    { id: "history-html-user", role: "user", text: "Why use semantic HTML?", provider_choice: "ollama", select_all_that_apply: true },
+    {
+      id: "history-html-assistant",
+      role: "assistant",
+      text: "Semantic elements describe meaning and structure.",
+      provider_choice: "ollama",
+      actual_provider: "ollama",
+      fallback_used: false,
+      retrieval_fallback_used: false,
+      select_all_that_apply: true,
+      status: "ok",
+      citations: [{ id: "1", evidence_id: "chunk-mode-1" }],
+      evidence: [evidence[0]],
+    },
+  ],
+};
+
 function jsonResponse(body) {
   return { status: 200, contentType: "application/json", body: JSON.stringify(body) };
 }
@@ -157,8 +178,8 @@ async function installApiMocks(page) {
       await request.respond(jsonResponse(selectedAnswer));
       return;
     }
-    if (pathName === "/textbooks/api/conversations/history-virtual") {
-      await request.respond(jsonResponse(historyDetail));
+    if (pathName === "/textbooks/api/conversations/history-virtual" || pathName === "/textbooks/api/conversations/history-html") {
+      await request.respond(jsonResponse(pathName.endsWith("history-html") ? historyHtmlDetail : historyDetail));
       return;
     }
     if (/^\/textbooks\/api\/sources\/[^/]+\/pdf$/.test(pathName)) {
@@ -258,6 +279,17 @@ async function assertHistoryList(page, viewportName) {
   assert.deepEqual(titles, historicalConversations.map((item) => item.title), `${viewportName}: historical question list is preserved`);
 }
 
+async function setDateInput(page, selector, value) {
+  await page.$eval(selector, (element, nextValue) => {
+    const input = element;
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+    if (!setter) throw new Error("Date input value setter is unavailable");
+    setter.call(input, nextValue);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }, value);
+}
+
 async function runHistoryFlow(page, viewportName, isMobile) {
   await assertHistoryList(page, viewportName);
   if (isMobile) {
@@ -276,6 +308,43 @@ async function runHistoryFlow(page, viewportName, isMobile) {
     await page.waitForFunction(() => document.querySelector('input[aria-label="Find a question"]')?.value === "");
     await page.waitForFunction(() => document.querySelectorAll(".history-select").length === 3);
   }
+
+  await page.locator("button.history-filter-toggle").click();
+  await page.select('select[aria-label="Filter history by course"]', "ITSE-1311");
+  await page.select('select[aria-label="Filter history by provider"]', "ollama");
+  await page.select('select[aria-label="Filter history by answer mode"]', "select_all");
+  await setDateInput(page, 'input[aria-label="Filter history from date"]', "2026-09-01");
+  await setDateInput(page, 'input[aria-label="Filter history to date"]', "2026-09-01");
+  assert.equal(await page.$eval('input[aria-label="Filter history from date"]', (element) => element.value), "2026-09-01", `${viewportName}: from-date filter is applied`);
+  assert.equal(await page.$eval('input[aria-label="Filter history to date"]', (element) => element.value), "2026-09-01", `${viewportName}: to-date filter is applied`);
+  const filterLayout = await page.evaluate(() => {
+    const panelRect = document.querySelector(".history-filters")?.getBoundingClientRect();
+    const panel = panelRect ? { left: panelRect.left, right: panelRect.right } : null;
+    const dates = [...document.querySelectorAll('.history-filter-dates input')].map((element) => {
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, width: rect.width };
+    });
+    return { panel, dates };
+  });
+  assert.ok(filterLayout.panel && filterLayout.dates.every((date) => date.left >= filterLayout.panel.left - 1 && date.right <= filterLayout.panel.right + 1), `${viewportName}: date controls stay inside the history filter panel`);
+  await page.waitForFunction(() => document.querySelectorAll(".history-select").length === 1);
+  assert.equal(await page.$eval(".history-count", (element) => element.textContent?.trim()), "1 matching question", `${viewportName}: combined history filters narrow results`);
+  await page.click('button.history-select');
+  if (isMobile) {
+    await page.waitForSelector(".history-rail.mobile-open", { hidden: true });
+    await page.locator('button[aria-label="Open history"]').click();
+    await page.waitForSelector(".history-rail.mobile-open");
+  }
+  assert.equal(await page.$eval('button.history-select[aria-current="page"] span', (element) => element.textContent?.trim()), "Why use semantic HTML?", `${viewportName}: filtered selection stays active`);
+  await page.screenshot({ path: path.join(artifactDir, `${viewportName}-history-filtered.png`), fullPage: false });
+  await page.select('select[aria-label="Filter history by course"]', "ITSC-1305");
+  await page.waitForSelector(".empty-history");
+  assert.match(await page.$eval(".empty-history p", (element) => element.textContent ?? ""), /Clear filters or choose a different course/);
+  await page.screenshot({ path: path.join(artifactDir, `${viewportName}-history-empty.png`), fullPage: false });
+  await page.locator(".history-filters .history-filter-clear").click();
+  await page.waitForFunction(() => document.querySelectorAll(".history-select").length === 3);
+  assert.equal(await page.$eval('button.history-select[aria-current="page"] span', (element) => element.textContent?.trim()), "Why use semantic HTML?", `${viewportName}: clearing filters preserves selected question`);
+
   const historyButton = await page.$('button.history-select');
   assert.ok(historyButton, `${viewportName}: historical question button exists`);
   await historyButton.evaluate((element) => element.scrollIntoView({ block: "center", inline: "nearest" }));

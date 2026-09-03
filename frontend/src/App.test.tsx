@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
@@ -196,5 +196,47 @@ describe("Textbook Desk", () => {
     await user.click(within(dialog).getByRole("button", { name: "Clear all history" }));
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("confirm=true"), expect.objectContaining({ method: "DELETE" })));
     expect(screen.queryByText("Virtual memory")).not.toBeInTheDocument();
+  });
+
+  it("filters history by course, provider, mode, and date, then restores the saved order", async () => {
+    const conversations = [
+      { id: "conv-os", title: "Operating systems", updated_at: "2026-09-03T10:00:00Z", course_ids: ["ITSC-1305"], provider_choice: "nvidia", actual_provider: "nvidia", select_all_that_apply: false },
+      { id: "conv-web", title: "Web principles", updated_at: "2026-09-02T10:00:00Z", course_ids: ["ITSE-1311"], provider_choice: "ollama", actual_provider: "ollama", select_all_that_apply: true },
+      { id: "conv-clean", title: "Commitments", updated_at: "2026-09-01T10:00:00Z", course_ids: ["INEW-2330"], provider_choice: "auto", actual_provider: "nvidia", select_all_that_apply: false },
+    ];
+    const fetchMock = mockApi(undefined, conversations, healthy, {
+      id: "conv-web",
+      title: "Web principles",
+      messages: [
+        { id: "web-user", role: "user", text: "Why use semantic HTML?", provider_choice: "ollama", select_all_that_apply: true },
+        { id: "web-assistant", role: "assistant", text: "Semantic HTML describes meaning.", provider_choice: "ollama", actual_provider: "ollama", status: "ok", select_all_that_apply: true, evidence: [] },
+      ],
+    });
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(await screen.findByRole("button", { name: /^Web principles/ }));
+    expect(await screen.findByRole("heading", { name: "Why use semantic HTML?" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+
+    await user.selectOptions(screen.getByLabelText("Filter history by course"), "ITSE-1311");
+    expect(screen.getByRole("button", { name: /^Web principles/ })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByText("1 matching question")).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText("Filter history by provider"), "ollama");
+    await user.selectOptions(screen.getByLabelText("Filter history by answer mode"), "select_all");
+    fireEvent.change(screen.getByLabelText("Filter history from date"), { target: { value: "2026-09-02" } });
+    fireEvent.change(screen.getByLabelText("Filter history to date"), { target: { value: "2026-09-02" } });
+    expect(screen.getByLabelText("Filter history from date")).toHaveValue("2026-09-02");
+    expect(screen.getByLabelText("Filter history to date")).toHaveValue("2026-09-02");
+    expect(screen.getByRole("button", { name: /^Web principles/ })).toBeInTheDocument();
+
+    await user.selectOptions(screen.getByLabelText("Filter history by course"), "ITSC-1305");
+    expect(screen.getByText("No matching questions")).toBeInTheDocument();
+    expect(screen.getByText(/Clear filters or choose a different course/)).toBeInTheDocument();
+    await user.click(screen.getAllByRole("button", { name: "Clear filters" })[0]);
+
+    await waitFor(() => expect(screen.getAllByRole("button", { name: /^(Operating systems|Web principles|Commitments)/ }).map((button) => button.querySelector("span")?.textContent)).toEqual(["Operating systems", "Web principles", "Commitments"]));
+    expect(screen.getByRole("button", { name: /^Web principles/ })).toHaveAttribute("aria-current", "page");
+    expect(fetchMock).not.toHaveBeenCalledWith(expect.stringContaining("/query"), expect.anything());
   });
 });

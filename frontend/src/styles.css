@@ -54,9 +54,23 @@ h1, h2, h3, p { margin-top: 0; }
 .history-rail { min-width: 0; height: 100%; overflow: hidden; border-right: 1px solid var(--line); background: rgba(251,249,243,.82); display: flex; flex-direction: column; z-index: 12; }
 .rail-title-row { height: 76px; padding: 20px 20px 8px; display: flex; align-items: start; justify-content: space-between; }
 .rail-title-row h2, .evidence-heading h2 { margin: 0; font: 700 30px/1.1 var(--sans); letter-spacing: -.5px; }
-.search-field { height: 44px; margin: 4px 18px 20px; padding: 0 12px; display: flex; gap: 10px; align-items: center; border: 1px solid #7f9192; background: var(--paper); }
+.search-field { height: 44px; margin: 4px 18px 8px; padding: 0 12px; display: flex; gap: 10px; align-items: center; border: 1px solid #7f9192; background: var(--paper); }
 .search-field svg { width: 16px; }
 .search-field input { min-width: 0; width: 100%; border: 0; background: transparent; outline: 0; font-size: 15px; }
+.history-filter-actions { min-height: 52px; margin: 0 18px 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.history-filter-toggle { min-height: 44px; padding: 0 10px; display: inline-flex; align-items: center; gap: 7px; border: 1px solid #7f9192; background: var(--paper); color: var(--teal-dark); font-size: 13px; font-weight: 600; }
+.history-filter-toggle.active { border-color: var(--teal); background: #e7f0ed; }
+.history-filter-toggle svg { width: 15px; }
+.filter-count { min-width: 20px; min-height: 20px; padding: 2px 5px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; color: white; background: var(--teal); font-size: 12px; line-height: 1; }
+.history-count { color: #617277; font-size: 12px; text-align: right; }
+.history-filters { margin: 0 18px 10px; padding: 12px; border: 1px solid var(--line); background: var(--paper-deep); }
+.history-filter-heading { min-height: 31px; display: flex; align-items: start; justify-content: space-between; gap: 8px; }
+.history-filter-heading .eyebrow { margin: 3px 0 0; font-size: 11px; }
+.history-filter-clear { min-height: 32px; padding: 0 3px; color: var(--teal-dark); font-size: 12px; text-decoration: underline; }
+.history-filter-control { min-width: 0; margin-top: 9px; display: grid; gap: 4px; color: #496368; font-size: 12px; font-weight: 600; }
+.history-filter-control select, .history-filter-control input { min-width: 0; width: 100%; min-height: 44px; padding: 0 8px; border: 1px solid #7f9192; border-radius: 2px; background: var(--paper); font-size: 13px; }
+.history-filter-dates { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.history-filter-error { margin: 9px 0 0; color: var(--coral); font-size: 12px; line-height: 1.35; }
 .history-list { flex: 1; overflow-y: auto; }
 .history-group h3 { margin: 0 18px; padding: 12px 2px 8px; border-bottom: 1px solid var(--line); font: 700 15px/1.2 var(--sans); }
 .history-row { min-height: 78px; margin: 0; padding: 0 6px 0 18px; border-bottom: 1px solid var(--soft-line); display: flex; align-items: center; position: relative; }
@@ -72,6 +86,7 @@ h1, h2, h3, p { margin-top: 0; }
 .empty-history > span { font-size: 34px; color: var(--teal); }
 .empty-history h3 { margin: 14px 0 8px; font: 700 20px var(--sans); color: var(--ink); }
 .empty-history p { font: 15px/1.5 var(--sans); }
+.empty-history-action { min-height: 44px; margin-top: 8px; color: var(--teal-dark); font-weight: 600; text-decoration: underline; }
 
 .answer-pane { min-width: 0; height: 100%; position: relative; overflow-y: auto; padding: 0 0 var(--composer-height); }
 .answer-article { width: min(680px, calc(100% - 72px)); margin: 34px auto 0; }
@@ -182,6 +197,10 @@ h1, h2, h3, p { margin-top: 0; }
   .workspace.has-evidence { grid-template-columns: 230px minmax(400px, 1fr) 390px; }
   .workspace, .topbar { grid-template-columns: 230px minmax(180px,1fr) auto auto auto; }
   .brand { font-size: 29px; padding: 0 16px; }.history-rail { width: 230px; }.composer { left: 230px; }.workspace.has-evidence .composer { right: 390px; }.research-status { display: none; }.answer-article { width: calc(100% - 48px); }
+}
+
+@media (min-width: 761px) {
+  .history-filter-dates { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
