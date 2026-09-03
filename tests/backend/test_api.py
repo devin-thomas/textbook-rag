@@ -162,6 +162,29 @@ def test_database_migrates_conversation_course_scope_column(seeded_database) -> 
     assert migration is not None
 
 
+def test_database_backfills_legacy_conversation_course_scope_from_evidence(seeded_database) -> None:
+    client, database, _nvidia, _ollama = make_client(seeded_database)
+    query = client.post(
+        "/api/query",
+        json={"question": "virtual memory", "provider": "nvidia", "source_ids": ["book-0"]},
+    )
+    assert query.status_code == 200
+    conversation_id = query.json()["conversation_id"]
+
+    with database.transaction() as connection:
+        connection.execute(
+            "UPDATE conversations SET course_ids='[]' WHERE id=?", (conversation_id,)
+        )
+    database.initialize(seeded_database[1])
+
+    summary = next(
+        item
+        for item in client.get("/api/conversations").json()["conversations"]
+        if item["id"] == conversation_id
+    )
+    assert summary["course_ids"] == ["COURSE-1"]
+
+
 def test_query_persists_provider_citations_and_ranked_evidence(seeded_database) -> None:
     client, _database, nvidia, ollama = make_client(seeded_database)
     response = client.post(

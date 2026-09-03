@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
+import json
 import sqlite3
 from typing import Iterator
 
@@ -53,6 +54,7 @@ class Database:
                     "INSERT INTO source_courses(source_id, course_id) VALUES (?, ?)",
                     ((source.id, course_id) for course_id in source.course_ids),
                 )
+            self._backfill_conversation_course_scopes(connection)
 
     @staticmethod
     def _migrate_message_evidence_cascade(connection: sqlite3.Connection) -> None:
@@ -195,6 +197,25 @@ class Database:
                 "ALTER TABLE conversations ADD COLUMN course_ids TEXT NOT NULL DEFAULT '[]'"
             )
         connection.execute("INSERT INTO schema_migrations(version) VALUES (7)")
+
+    @staticmethod
+    def _backfill_conversation_course_scopes(connection: sqlite3.Connection) -> None:
+        rows = connection.execute(
+            "SELECT c.id, sc.course_id FROM conversations c "
+            "JOIN messages m ON m.conversation_id=c.id "
+            "JOIN message_evidence me ON me.message_id=m.id "
+            "JOIN source_courses sc ON sc.source_id=me.source_id "
+            "WHERE c.course_ids='[]' "
+            "GROUP BY c.id, sc.course_id ORDER BY c.id, sc.course_id"
+        ).fetchall()
+        course_ids_by_conversation: dict[str, list[str]] = {}
+        for row in rows:
+            course_ids_by_conversation.setdefault(row["id"], []).append(row["course_id"])
+        for conversation_id, course_ids in course_ids_by_conversation.items():
+            connection.execute(
+                "UPDATE conversations SET course_ids=? WHERE id=? AND course_ids='[]'",
+                (json.dumps(course_ids), conversation_id),
+            )
 
     @contextmanager
     def transaction(self) -> Iterator[sqlite3.Connection]:
