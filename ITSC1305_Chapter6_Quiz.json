@@ -1,0 +1,225 @@
+{
+  "title": "Quiz - Week 5 - Chapter 6",
+  "questions": [
+    {
+      "id": "q01-directory-structure",
+      "question": "A directory structure is used to __________. Choices: organize directory information on your computer; create maps that help students navigate between campus buildings; find manila files in a file cabinet; provide detailed information about file contents.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q02-cli-acronym",
+      "question": "CLI is the acronym for __________. Choices: core language interpreter; content line interpreter; command-line interface; command-line interpreter.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q03-centos-home-directory",
+      "question": "Conventional users who log on to CentOS 7 are automatically placed in the __________ directory. Choices: systems; root; home; user.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q04-centos-change-directory",
+      "question": "In CentOS 7, the command to change a directory is __________. Choices: the same as the command in Windows 10, and case does not matter; the same as the command in Windows 10, but it must be lowercase; complicated and not widely used; cd.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q05-absolute-path",
+      "question": "The absolute path __________. Choices: is a path to a file that begins with the drive identifier and root directory and ends with the complete filename; begins with the backslash symbol (\\) before the directory path in Windows; begins with the forward slash symbol (/) before the directory path in Linux; requires no symbol before the directory path.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q06-centos-list-command",
+      "question": "The __________ command in CentOS 7 displays your directories and files. Choices: dir; cd; show; ls.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q07-dir-command",
+      "question": "The DIR command is used to __________. Choices: display the contents of a single file; list the directories and subdirectories on a disk; list the files in a directory.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q08-move-mv-command",
+      "question": "The MOVE command in Windows 10 and the mv command in CentOS 7 __________. Choices: copy the contents of one file to another location, leaving the original intact; can be used interchangeably; move a file to another location; automatically rename the file as it is processed.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q09-relative-path",
+      "question": "The relative path __________. Choices: is implied to be the current working directory when a directory path is not listed in a command prompt; begins with the backslash symbol (\\) before the directory path in Windows; begins with the forward slash symbol (/) before the directory path in Linux.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q10-tree-command",
+      "question": "The TREE command is used to __________. Choices: display the contents of a single file; list the directories and subdirectories on a disk; organize the files on a disk; list the files in a directory using the /F switch.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q11-windows-change-directory-commands",
+      "question": "To change the directory in Windows 10, you can use which of the following commands? Choices: cd; changeDIR; CD; CHDIR.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q12-centos-create-directory",
+      "question": "To create a directory in CentOS 7, use the __________ command. Choices: cddir; dir; makedir; mkdir; chdir.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q13-centos-remove-directory",
+      "question": "To remove a directory in CentOS 7, __________. Choices: use the remove command; use the rm command; you use the same command that is used in Windows 10; use the rmdir command.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q14-long-directory-name",
+      "question": "When you use a long name for a directory, you may __________. Choices: use lowercase letters; use uppercase letters; have spaces between words; more than 200 characters.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q15-more-with-ls",
+      "question": "When you use the more command with the ls command in CentOS 7, __________. Choices: all information about files and directories disappear; you can scroll through the listing page by page; nothing happens; you need to use the less command; you are prompted for additional file information.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q16-display-directory-structures-windows",
+      "question": "Which of the following can you use to display directory structures in Windows 10? Choices: File Explorer; Directory Manager; Command prompt; Windows directory viewer.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q17-remove-directory-windows",
+      "question": "Which of the following commands can you use in Windows 10 to remove a directory and its files? Choices: RM; RDDIR; RD; RMDIR.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q18-white-space",
+      "question": "White space is __________. Choices: any blank area of a window.; used to provide files with longer, more meaningful names; not available in a window; used to help you locate files and folders more easily by using the options available.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q19-wildcard-characters",
+      "question": "Wildcard characters are used in commands to __________. Choices: match single characters to specify groups of files; match strings of characters to specify groups of files; match files with the same extension; speed the process of accessing files.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q20-centos-cli-window",
+      "question": "You can open a __________ to access the CLI in CentOS 7. Choices: Windows Console; terminal window; directory viewer; command prompt.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-6"
+      ],
+      "select_all_that_apply": false
+    }
+  ]
+}

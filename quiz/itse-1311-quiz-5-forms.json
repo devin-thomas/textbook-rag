@@ -1,0 +1,75 @@
+{
+  "title": "ITSE-1311 Quiz 5 - HTML Forms",
+  "questions": [
+    {
+      "id": "q01-form-elements",
+      "question": "Which of these are form elements mentioned in the text (multiple answers)? Choices: password; checkboxes; username; drop down list.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q02-input-field-reference",
+      "question": "Which of these do we use in our input fields to refer back to it in our code? Choices: action; id; method; name.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q03-form-action",
+      "question": "Which of these tells the page where to send the information? Choices: id; action; name; method.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q04-form-method",
+      "question": "Which of these tells the page how to send the information? Choices: action; name; id; method.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q05-get-url",
+      "question": "Which method attaches information onto the URL (also known as URI or Uniform Resource Identifier)? Choices: POST; GET.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q06-confidential-information",
+      "question": "Which method should not be used if you are sending passwords or confidential information? Choices: GET; POST.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q07-input-validation",
+      "question": "Which of these assists with data validation by specifying what belongs in the input field? Choices: autofocus; placeholder; type.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q08-placeholder",
+      "question": "Which of these tells the user what should be typed in the input field? Choices: type; autofocus; placeholder.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q09-autofocus",
+      "question": "Which of these will put the cursor in the field you specify? Choices: placeholder; type; autofocus.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q10-number-range",
+      "question": "Which of these input types allow you to specify the minimum number, maximum number, step count, and the starting value? Choices: number; range; URL; email.",
+      "course_ids": ["ITSE-1311"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    }
+  ]
+}

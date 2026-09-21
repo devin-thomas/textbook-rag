@@ -1,0 +1,72 @@
+{
+  "title": "ITSE-2302 Data Streams, JSON, and XML Quiz",
+  "questions": [
+    {
+      "id": "q01-equality-assignment",
+      "question": "Which of these means equal to? Choices: $a === $b; $a == $b; $a <> $b; $a = $b.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"]
+    },
+    {
+      "id": "q02-less-than-or-equal",
+      "question": "Which of these represents $a is less than or equal to $b? Choices: $a => $b; $a <= $b; $a =< $b; $a >= $b.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"]
+    },
+    {
+      "id": "q03-not-equal",
+      "question": "Which of these represents $a is not equal to $b? Select all that apply. Choices: $a == $b; $a >< $b; $a <> $b; $a != $b.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q04-data-stream-definition",
+      "question": "Data streams are long strings of characters formatted to convey information between systems. Choices: True; False.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"]
+    },
+    {
+      "id": "q05-data-stream-formats",
+      "question": "Which are data streams? Select all that apply. Choices: JASON; SimpleXML; JSON; XML.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q06-data-stream-characteristics",
+      "question": "Which is true concerning data streams? Select all that apply. Choices: result in a compressed syntax to identify the information and its meaning; frequently used to transmit responses between the server and the user's browser; Must be complete, raw information; focus on the ability to quickly convey information in as readable a format as possible.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q07-json-characteristics",
+      "question": "Which is true concerning JSON? Select all that apply. Choices: delimits objects with nested brackets and quoted values; acronym for JavaScript Object Notation; uses colons to denote value pairs; uses colons to separate value pairs.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q08-xml-characteristics",
+      "question": "Which is true concerning XML? Select all that apply. Choices: abbreviation of eXpandable Markup Language; similar to HTML; Tags are user defined; abbreviation of eXtensible Markup Language.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q09-simplexml-capabilities",
+      "question": "What does SimpleXML allow the PHP programmer to do? Select all that apply. Choices: Navigate XML content; Encode XML content; Create XML content; Edit XML content.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q10-json-array-functions",
+      "question": "Which functions convert JSON to and from arrays? Select all that apply. Choices: json_encode; json_array; json_decode; json_extract.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    }
+  ]
+}

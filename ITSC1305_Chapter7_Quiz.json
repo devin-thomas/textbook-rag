@@ -1,0 +1,225 @@
+{
+  "title": "Quiz - Week 5 - Chapter 7",
+  "questions": [
+    {
+      "id": "q01-file-extension",
+      "question": "A file extension __________. Choices: is required in both the Windows 10 and CentOS 7 operating systems; is used by the OS to determine which program could be used to process the file; typically suggests the type of data in the file; is usually three letters and comes after the period; is usually three letters and comes after the comma.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q02-regular-expression",
+      "question": "A regular expression __________. Choices: example is [A-C]; is helpful when searching for exact text matches in all ASCII file; is a notation fro specifying patterns of text, as opposed to exact strings of characters; uses literal characters and metacharacters.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q03-windows-file-attributes-count",
+      "question": "Every file in Windows has at least __________ attributes. Choices: four; three; one; two.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q04-file-associations",
+      "question": "File associations __________. Choices: specify certain aspets of the operating system's treatment of different file types; specify the operating system you are using; refer to left-over information that does not help you; are only used in the Windows 10 OS; specify certain aspects of the operating system's treatment of different directories.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q05-centos-file-attributes",
+      "question": "File attributes in CentOS 7 __________. Choices: are set by the permissions on the file; can be viewed with the lsattr command; are different from those in Windows 10; are the same as those in Windows 10.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q06-centos-file-extensions",
+      "question": "In CentOS 7, file extensions __________. Choices: do not help in determining the contents of the file; are not necessary because the OS can read the file header to check for the file type; are required; are identical to those used in the Windows 10 OS.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q07-compression-attribute",
+      "question": "Setting the compression attribute __________. Choices: decreases a file's size; cannot be done prior to encryption; is not recommended and should not be considered; may result in a loss of performance; decreases the amount of space used by all the files stored within a folder.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q08-encryption-attribute",
+      "question": "Setting the encryption attribute of Windows 10 files __________. Choices: is the same as compression; is used to decrease file size; will remove the compression attribute; prohibits other users from viewing the contents of encrypted files.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q09-cat-command",
+      "question": "The cat command displays a file's contents __________. Choices: and can use the redirection symbol >; and requires a question mark; by concatenating them to the standard output device or another file; one page at a time when the more command is also used.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q10-hidden-attribute",
+      "question": "The hidden attribute __________. Choices: is used to prevent a file from being seen by other commands; cannot be seen unless you use the DIR UNHIDE command; is not listed by the DIR command by default; causes yiour files to become invisible to the OS.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q11-view-file-contents-centos",
+      "question": "To view the contents of a file in CentOS 7, use the __________ command. Choices: FIND; find; more; cat.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q12-search-exact-text-windows",
+      "question": "Use the __________ command to search for exact text matches in an ASCII file. Choices: SEEK; SEARCH; ATTRIB; FINDSTR.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q13-dir-equivalent-centos",
+      "question": "The DIR command in Windows 10 is similar to the __________ command in CentOS 7. Choices: find; ls; file; more.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q14-view-attributes-windows",
+      "question": "Use the __________ command to view attributes in a Windows command prompt. Choices: ATTRIB; FIND; FILE_ATTRIB; VIEW.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q15-more-command",
+      "question": "Use the more command to __________. Choices: view hardware configuration; view file contents; determine file attributes; copy file contents.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q16-file-extension-uses",
+      "question": "When working with files, knowing the file extension helps you __________. Choices: determine the value of the file before you begin working with it; determine the correct compiler to use; troubleshoot problems you may encounter with downloaded files from the Internet; determine if you need to laod the application to read or update the file; in no way; it is only for decorative purposes.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q17-file-explorer-search-criteria",
+      "question": "Which search criteria can you use with the Windows File Explorer Search feature? Choices: date deleted; All of a filename; date modified; part of a filename.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q18-centos-find-command",
+      "question": "You use the find command in CentOS 7 to search for __________. Choices: text within a file; directories; files based on file type; symbolic links.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q19-findstr-command",
+      "question": "You use the FINDSTR command in Windows to search for __________. Choices: directories; text within a file; files based on file type; links.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q20-grep-command",
+      "question": "You use the grep command in CentOS 7 to search for __________. Choices: links; files based on file type; text within a file; directories.",
+      "course_ids": [
+        "ITSC-1305"
+      ],
+      "source_ids": [
+        "canvas-week5-chapter-7"
+      ],
+      "select_all_that_apply": false
+    }
+  ]
+}

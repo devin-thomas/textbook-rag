@@ -1,0 +1,114 @@
+{
+  "title": "ITSE-1311 PHP Variables and Data Quiz",
+  "questions": [
+    {
+      "id": "q01-variable-traits",
+      "question": "Which statements are true concerning variables? Select all that apply. Choices: Used for a short span of time; Used to reference pieces of information; Expected to change value as the script runs; Created and used when a script runs.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q02-php-variable-type",
+      "question": "With PHP, we do not have to tell the computer what type of information we are going to keep in a variable. Choices: True; False.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q03-variable-formatting",
+      "question": "Which statements are true concerning PHP variable formatting? Select all that apply. Choices: Can begin with a number; Can have a space; Typically has an underscore (_) as a second character; Must begin with a dollar sign ($).",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q04-zero-or-one-variable",
+      "question": "Which type of variable can have a value of 0 or 1? Choices: Floating; Integer; String; Boolean.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q05-whole-number-variable",
+      "question": "Which type of variables are whole numbers (1, 3, 20, etc.)? Choices: String; Integer; Boolean; Floating.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q06-decimal-variable",
+      "question": "Which type of variables are decimal values (1.33, 34.2325)? Choices: Boolean; Floating; String; Integer.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q07-character-variable",
+      "question": "Which type of variables contain any number of characters? Choices: Floating; Boolean; Integer; String.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q08-structured-list",
+      "question": "Which is a structured list of information? Choices: Object; Array; NULL; Resource.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q09-empty-variable",
+      "question": "Which is an empty (unused or unset) variable? Choices: Object; Array; Resource; NULL.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q10-semicolon-required",
+      "question": "Semicolons at the end of each line are not necessary. Choices: True; False.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q11-user-visit-information",
+      "question": "Which holds information about a user's visit? Select all that apply. Choices: $_FILES; $_ENV; $_COOKIE; $_SESSION.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q12-server-information",
+      "question": "Which holds information about the server? Choices: $_COOKIE; $_FILES; $_ENV; $_SESSION.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q13-increment-counter",
+      "question": "Which statements will increment a counter by one? Select all that apply. Choices: $counter++; $counter = 1 + 1; $counter = $counter + 1; $counter += 1.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q14-constant-traits",
+      "question": "Which statements are true concerning constants? Select all that apply. Choices: Cannot embed in a string; Starts with dollar sign; Some are predefined; Does not change.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q15-string-concatenation",
+      "question": "Which character concatenates strings and variables? Choices: at sign (@); period (.); addition sign (+); ampersand (&).",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q16-array-traits",
+      "question": "Which statements are true concerning arrays? Select all that apply. Choices: Starts with 1; Can be numeric or associative; Stores multiple values in one variable; Starts with 0.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q17-array-position-cat",
+      "question": "In the following array, which position is cat? array(\"dog\", \"cat\", \"bird\", \"snake\", \"guinea pig\"). Choices: $theGriffins[2]; $theGriffins[3]; $theGriffins[1]; $theGriffins[0].",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q18-post-get-traits",
+      "question": "Which statements are true concerning $_POST and $_GET? Select all that apply. Choices: They are arrays; Used by forms to transmit data; Always available; They are reserved variables.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q19-cookie-traits",
+      "question": "Which statements are true concerning cookies? Select all that apply. Choices: Stores small files on the user's computer; Must pass information using forms; Used to store and use information from any page on our site; Must use special links.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q20-session-traits",
+      "question": "Which statements are true concerning sessions? Select all that apply. Choices: Stores information on the server; Sessions can be used with cookies simultaneously; Stores information on the user's computer; Will work when the user blocks cookies.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    }
+  ]
+}

@@ -17,6 +17,9 @@ dependencies = [
   "uvicorn[standard]==0.35.0",
 ]
 
+[project.scripts]
+textbook-quiz = "textbook_rag.quiz:main"
+
 [project.optional-dependencies]
 dev = [
   "pytest==8.4.1",

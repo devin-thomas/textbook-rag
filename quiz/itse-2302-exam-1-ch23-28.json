@@ -1,0 +1,285 @@
+{
+  "title": "ITSE-2302 Exam 1 - Chapters 23-28",
+  "questions": [
+    {
+      "id": "q01-server-side-language",
+      "question": "Which describes a server-side language? Choices: the code is hidden from the user; enables you to adjust the interface in response to the user; decreases the work load on the user computer; the code is processed locally.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q02-javascript-statement",
+      "question": "Which statement about JavaScript is true? Choices: JavaScript must be in <script> tags; JavaScript must be in the <head> tags; JavaScript and Java are the same language; JavaScript must be saved in an external file.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q03-client-side-language",
+      "question": "Which describes a client-side language? Choices: decreases the work load on the user computer; the code is hidden from the user; enables you to adjust the interface in response to the user; the code is processed locally.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q04-client-side-scripting",
+      "question": "Which is a client-side scripting language? Choices: PHP; JavaScript; Java; C++.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q05-php-javascript-similarity",
+      "question": "PHP and JavaScript use many of the same concepts and look very similar in terms of code. Choices: True; False.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q06-server-side-scripting",
+      "question": "Which is a server-side scripting language? Choices: Java; C++; PHP; JavaScript.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q07-file-types",
+      "question": "Which is true concerning file types? Choices: PHP code inside HTML files can use the <script language='php'></script> tags; PHP code inside HTML files can use the <? and ?> tags; PHP files have a .php extension; PHP code inside HTML files use the <?php and ?> tags.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q08-missing-bracket-error",
+      "question": "Which type of error would you receive if you are missing a bracket? Choices: Logical; Warning; Parsing.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q09-undefined-variable-message",
+      "question": "Which type of system message would be caused if you didn't create a variable you refer to in a program? Choices: Warnings; Notices; Erros.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q10-optional-code-message",
+      "question": "Which type of system message informs the programmer of code they may have intended to add, but PHP can do without it, like creating a variable for you? Choices: Warnings; Errors; Notices.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q11-error-reporting",
+      "question": "Which of these statements are true concerning error reporting? Choices: Is not confusing for users; Can expose sensitive information; Error reporting must be enabled; Types of errors to be displayed can be specified.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q12-debug-output-statements",
+      "question": "What type of error can be resolved using temporary output statements to follow the value of a variable or trace the execution of a script? Choices: Logical; Parsing; No answer text provided; Notices.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q13-missing-semicolon-message",
+      "question": "Which type of system message would you see if you are missing a semi-colon? Choices: Notices; Warning; Error.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q14-error-information",
+      "question": "Which type of error will give you information on the type of error? Choices: Parsing; No answer text provided; Notices; Logical.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q15-warning-message",
+      "question": "Which type of system message informs the programmer that something has gone wrong with a script, but it does not stop it from running? Choices: Notices; Warnings; Erros.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q16-screen-output",
+      "question": "Which displays output to the screen? Choices: console.output(); document.write; alert function; outterHTML.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q17-output-syntax",
+      "question": "Which is the correct syntax for output? Choices: <?php echo \"Hello, World!\"; ?>; <?php echo (Hello, World!); ?>; <?php echo (\"Hello, World!\"); ?>.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q18-constants",
+      "question": "Which is true concerning constants? Choices: Starts with dollar sign; Some are predefined; Doesn't change; Cannot embed in a string.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q19-counter-increments",
+      "question": "Which counter options can be altered to allow an increment of more than one? Choices: $counter = $counter + 1; $counter++; $counter +=1.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q20-interpreted-quotes",
+      "question": "Which quote will be examined by the interpreter for anything that can be processed by PHP? Choices: Single quotes; Double quotes.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q21-assignment-character",
+      "question": "Which character is used to assign a value to a variable? Choices: =; ==; :.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q22-variables",
+      "question": "Which is true concerning variables? Choices: created and used when a script runs; Used to reference pieces of information; expected to change value as the script runs; used for a short span of time.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q23-string-functions",
+      "question": "Which can be done by functions to manipulate strings? Choices: capitalizing all or one word; breaking strings apart; finding and replacing.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q24-variable-formatting",
+      "question": "Which is true concerning PHP variable formatting? Choices: Can have a space; Can begin with a number; Must begin with a dollar sign ($); Typically has an underscore (_) as a second character.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q25-post-get",
+      "question": "Which is true concerning $_POST and $_GET? Choices: Used by forms to transmit data; Always available; They are arrays; They are reserved variables.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q26-concatenation",
+      "question": "Which is the act of connecting several items into one output? Choices: concatenation; Object; Reference; NULL.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q27-null-variable",
+      "question": "Which is an empty, unused, or unset variable? Choices: NULL; Object; Resource; Array.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q28-decimal-variable-type",
+      "question": "Which type of variables are decimal values such as 1.33 or 34.2325? Choices: Boolean; Integer; Floating; String.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q29-sessions",
+      "question": "Which is true concerning sessions? Choices: stores information on the server; stores information on the user's computer; sessions can be used with cookies simultaneously; will work when user blocks cookies.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q30-string-variable-type",
+      "question": "Which type of variables contain any number of characters? Choices: Floating; Integer; String; Boolean.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q31-object-oriented-web-pages",
+      "question": "Object-oriented programming is commonly used in most web pages. Choices: True; False.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q32-resource-variable",
+      "question": "Which is a special variable that holds reference points to things like files? Choices: Resource; Object; NULL; Array.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q33-data-stream-definition",
+      "question": "Data streams are long strings of characters formatted to convey information between systems. Choices: True; False.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q34-json",
+      "question": "Which is true concerning JSON? Choices: uses colons to separate value pairs; delimits objects with nested brackets and quoted values; uses colons to denote value pairs; acronym for JavaScript Object Notation.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q35-xml",
+      "question": "Which is true concerning XML? Choices: similar to HTML; Tags are user defined; abbreviation of eXpandable Markup Language; abbreviation of eXtensible Markup Language.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q36-json-functions",
+      "question": "Which functions convert JSON to and from arrays? Choices: json_encode; json_extract; json_array; json_decode.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q37-less-than-equal",
+      "question": "Which of these represents $a is less than or equal to $b? Choices: $a => $b; $a >= $b; $a =< $b; $a <= $b.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": false
+    },
+    {
+      "id": "q38-simplexml",
+      "question": "What does SimpleXML allow the PHP programmer to do? Choices: Create XML content; Navigate XML content; Edit XML content; Encode XML content.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q39-data-streams",
+      "question": "Which is true concerning data streams? Choices: focus on the ability to quickly convey information in as readable a format as possible; frequently used to transmit responses between the server and the user's browser; result in a compressed syntax to identify the information and its meaning; Must be complete, raw information.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q40-not-equal",
+      "question": "Which of these represents $a is not equal to $b? Choices: $a >< $b; $a != $b; $a == $b; $a <> $b.",
+      "course_ids": ["ITSE-2302"],
+      "source_ids": ["missing-link-web"],
+      "select_all_that_apply": true
+    }
+  ]
+}

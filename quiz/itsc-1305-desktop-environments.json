@@ -1,0 +1,114 @@
+{
+  "title": "ITSC-1305 Desktop Environments Quiz",
+  "questions": [
+    {
+      "id": "q01-centos-file-utility",
+      "question": "A utility that locates and opens files in CentOS 7 is _____. Choices: Windows Explorer; File Search; Control Center; Files; Search.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q02-windows-file-utility",
+      "question": "A utility that locates and opens files in Windows 10 is _____. Choices: Control Center; the Search box; File Browser; Windows File Explorer.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q03-unlock-taskbar",
+      "question": "If you cannot move the taskbar, _____. Choices: double-click it; unlock it by right-clicking an empty area of the taskbar and clicking Lock the taskbar to clear the check mark; unlock it by right-clicking an empty area of the taskbar and clicking Unlock the taskbar; do not worry; the taskbar cannot be moved.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q04-centos-taskbar-name",
+      "question": "In CentOS 7, the taskbar is commonly referred to as a _____. Choices: menu; taskbar; file; Top Bar.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q05-menu-customization",
+      "question": "Menus are customized to _____. Select all that apply. Choices: change fonts, color schemes, and window behaviors; remove unused data; group applications by use; provide shortcuts to frequently used applications.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q06-windows-start-parts",
+      "question": "The Windows 10 default Start menu is divided into _____ part(s). Choices: 4; 1; 3; 2.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q07-pin-start",
+      "question": "To add an application as a tile to the Windows Start menu, click _____. Choices: Pin to Taskbar; Add to Start; Add to Taskbar; Pin to Start.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q08-file-explorer-filters",
+      "question": "To filter a search in File Explorer in Windows 10, you can use the _____ option. Select all that apply. Choices: directory; Date deleted; Size; Date modified.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q09-centos-applications-menu",
+      "question": "To start applications in CentOS 7, use the _____. Choices: Start Menu; Applications Menu; Launch menu; Configure menu.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q10-windows-start-menu",
+      "question": "To start applications in Windows 10, use the _____. Choices: Launch menu; Control Center; Start menu; Applications menu.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q11-centos-default-gui",
+      "question": "What is the default GUI application in CentOS 7? Choices: KVM; GNOME; Lollypop; Windows.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q12-centos-workspaces",
+      "question": "What is the default number of workspaces in CentOS 7? Choices: 3; 1; 4; 6.",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "q13-delete-destinations",
+      "question": "When you delete files from a folder, where do they go? Select all that apply. Choices: Trash; the Delete Folder; File Manager; Recycle Bin.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q14-more-information-screen",
+      "question": "Which of the following actions permits more information to appear on the screen? Select all that apply. Choices: increasing the screen resolution; decreasing the size of text; decreasing the screen resolution; increasing the size of text.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q15-windows-taskbar-items",
+      "question": "Which of the following items are commonly found on the Windows 10 taskbar? Select all that apply. Choices: Clock; File menu; Start button; open applications.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q16-windows-start-default-options",
+      "question": "Which of the following options appear on the Windows 10 Start menu by default? Select all that apply. Choices: Music; Power; trash; settings.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q17-windows-desktop-features",
+      "question": "Windows 10 desktop features include _____. Select all that apply. Choices: Jump lists; Snap; Peek; Shake.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q18-tailored-desktop",
+      "question": "You can tailor the desktop to provide _____. Select all that apply. Choices: shortcuts to frequently used applications; privacy; quick access to running applications; an organized workspace.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q19-taskbar-functions",
+      "question": "You can use the taskbar to _____. Select all that apply. Choices: modify the current taskbar settings; quickly move between open applications; change the configuration of the Start menu; monitor current tasks.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q20-file-grouping",
+      "question": "As an aid to organization in Windows 10 or CentOS 7, files are grouped by _____. Choices: libraries; folders; places; partitions.",
+      "course_ids": ["ITSC-1305"]
+    }
+  ]
+}

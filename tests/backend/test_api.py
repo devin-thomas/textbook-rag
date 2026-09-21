@@ -268,6 +268,27 @@ def test_history_list_returns_filter_metadata(seeded_database) -> None:
     assert summary["select_all_that_apply"] is True
 
 
+def test_question_history_returns_cleaning_metadata_newest_first(seeded_database) -> None:
+    client, _database, _nvidia, _ollama = make_client(seeded_database)
+    response = client.post(
+        "/api/query",
+        json={
+            "question": "virtual memory",
+            "provider": "nvidia",
+            "source_ids": ["book-0"],
+            "select_all_that_apply": True,
+        },
+    )
+    assert response.status_code == 200
+
+    history = client.get("/api/question-history")
+
+    assert history.status_code == 200
+    assert history.json()["questions"][0]["question"] == "virtual memory"
+    assert history.json()["questions"][0]["course_ids"] == ["COURSE-1"]
+    assert history.json()["questions"][0]["select_all_that_apply"] is True
+
+
 def test_unfiltered_query_passes_full_effective_scope_to_provider(seeded_database) -> None:
     client, _database, nvidia, _ollama = make_client(seeded_database)
 
@@ -441,7 +462,18 @@ def test_failed_auto_fallback_is_observable_in_error_and_history(seeded_database
     )
 
     assert response.status_code == 503
-    assert response.json()["error"] == {
+    error = response.json()["error"]
+    assert {
+        key: error[key]
+        for key in (
+            "code",
+            "message",
+            "provider",
+            "kind",
+            "fallback_used",
+            "initial_failure_kind",
+        )
+    } == {
         "code": "provider_unavailable",
         "message": "ollama offline",
         "provider": "ollama",
@@ -449,6 +481,9 @@ def test_failed_auto_fallback_is_observable_in_error_and_history(seeded_database
         "fallback_used": True,
         "initial_failure_kind": "timeout",
     }
+    assert error["conversation_id"]
+    assert error["user_message_id"]
+    assert error["assistant_message_id"]
     conversation = client.get("/api/conversations").json()["conversations"][0]
     detail = client.get(f"/api/conversations/{conversation['id']}").json()
     assistant = detail["messages"][1]

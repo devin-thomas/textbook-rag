@@ -1,0 +1,16 @@
+{
+  "title": "Operating Systems Review",
+  "questions": [
+    {
+      "id": "virtual-memory-page-fault",
+      "question": "1. What happens when a process references a virtual-memory page that is not in physical memory?",
+      "course_ids": ["ITSC-1305"]
+    },
+    {
+      "id": "operating-system-jobs",
+      "question": "Q2: Select all core jobs an operating system performs for applications and hardware.",
+      "course_ids": ["ITSC-1305"],
+      "select_all_that_apply": true
+    }
+  ]
+}

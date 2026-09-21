@@ -105,6 +105,32 @@ npm --prefix frontend run test:e2e
 
 The product route is `http://127.0.0.1:8766/textbooks/`. `Auto` tries NVIDIA first and falls back to Ollama only for a provider failure. Explicit NVIDIA and Ollama selections never switch generation providers. Queries normally use local `qwen3-embedding:4b` through the SSH tunnel; NVIDIA and Auto can use SQLite FTS-only retrieval when that embedding request is unavailable, with the degraded mode shown in the answer. Before submitting, the composer can mark a question `Select all that apply`; that mode is passed to the grounded provider prompt and restored when the historical question is reopened.
 
+## Quiz mode
+
+Quiz mode accepts any number of questions from JSON, CSV, TXT, or Markdown, cleans numbering and whitespace, removes exact duplicate requests, and sends each unique question through the running Textbook Desk API. Identically worded questions with different course, source, or answer-mode scopes remain separate. It always requests the explicit `nvidia` provider, so a failed NVIDIA request is reported instead of silently switching to Ollama. The default six requests per minute is intentionally conservative and can be adjusted for the current NVIDIA quota.
+
+NVIDIA generation disables the model's reasoning trace and uses NIM `guided_json` with Textbook Desk's answer schema. This keeps the returned content parseable for both single-answer and select-all questions while the existing citation validator still rejects invented or missing evidence IDs.
+
+Start Textbook Desk, then run the included example:
+
+```powershell
+.\scripts\Invoke-QuizMode.ps1 -InputPath .\quiz\questions.example.json
+```
+
+The runner writes `reports/generated/quiz/quiz-results.json` as an atomic checkpoint after every question and creates `quiz-results.html` from the completed JSON. Open the HTML file in a browser to review answers and follow citations back to Textbook Desk. If a run is interrupted, continue it without repeating completed questions:
+
+```powershell
+.\scripts\Invoke-QuizMode.ps1 -InputPath .\quiz\questions.example.json -Resume
+```
+
+JSON may be either a top-level question array or an object with `title` and `questions`. Each question can be a string or an object with `question` (aliases: `text`, `prompt`), `id`, `course_ids`, `source_ids`, and `select_all_that_apply`. CSV uses the same column names. TXT and Markdown treat each non-empty line as one question.
+
+Before execution, the runner loads the local question history in one API call. An exact match can restore missing `course_ids` and `select_all_that_apply` metadata, while explicit input always wins and prior answers are never reused. Pass `-NoHistory` for a history-independent run. Rate-limit and retry behavior are configurable:
+
+```powershell
+.\scripts\Invoke-QuizMode.ps1 -InputPath .\my-quiz.csv -RequestsPerMinute 4 -MaxRetries 5 -OutputDirectory reports\generated\my-quiz
+```
+
 ## Titan auto-start
 
 The task installer owns exactly two current-user scheduled tasks:

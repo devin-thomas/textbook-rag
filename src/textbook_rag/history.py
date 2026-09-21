@@ -171,6 +171,22 @@ class HistoryStore:
             result.append(item)
         return result
 
+    def question_history(self) -> list[dict[str, object]]:
+        with self.database.connect() as connection:
+            rows = connection.execute(
+                "SELECT m.id AS message_id, m.conversation_id, m.text AS question, "
+                "m.select_all_that_apply, c.course_ids, m.created_at "
+                "FROM messages m JOIN conversations c ON c.id=m.conversation_id "
+                "WHERE m.role='user' ORDER BY m.created_at DESC, m.rowid DESC"
+            ).fetchall()
+        result = []
+        for row in rows:
+            item = dict(row)
+            item["course_ids"] = self._decode_course_ids(item.get("course_ids"))
+            item["select_all_that_apply"] = bool(item["select_all_that_apply"])
+            result.append(item)
+        return result
+
     def detail(self, conversation_id: str) -> dict[str, object]:
         with self.database.connect() as connection:
             conversation = connection.execute(

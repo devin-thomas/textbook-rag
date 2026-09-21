@@ -1,0 +1,88 @@
+{
+  "title": "ITSE-1311 Images, Compression, Favicons, and Tables Quiz",
+  "questions": [
+    {
+      "id": "q01-bandwidth-techniques",
+      "question": "What are the ways listed in the text to make our pages use less bandwidth? Select all that apply. Choices: By using a combination of image types; Upgrading the router; By using canvas; By reproducing images using CSS.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q02-raster-image",
+      "question": "Which recreates an image by recording the color value of pixels, which represent the smallest single point on a screen that can be assigned a color by the display? Choices: Raster; Vector.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q03-vector-image",
+      "question": "Which stores information about colors and locations as definitions of angles, lines, and curves in mathematical format? Choices: Vector; Raster.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q04-lossy-compression",
+      "question": "Which can result in greater compression, but achieves the extra advantage by removing information from the file? Choices: lossless; lossy.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q05-lossless-compression",
+      "question": "Which does not remove data from the original copy, so we can restore the image to its exact original size and appearance? Choices: lossy; lossless.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q06-lossy-format",
+      "question": "Which achieves the extra advantage by removing information from the file? Choices: PNG; TIFF; GIF; BMP; JPEG.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q07-gif-use",
+      "question": "When should we use gifs according to the text? Choices: for smaller icons and indicators; for our larger images or photos,.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q08-jpg-use",
+      "question": "When should we use jpgs according to the text? Choices: for our larger images or photos; for smaller icons and indicators.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q09-compression-choice",
+      "question": "How does the text explain which compression is better? Choices: lossless; it depends; lossy.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q10-image-weight-techniques",
+      "question": "Which are the techniques explained in the text to reduce image weight on a site? Select all that apply. Choices: sprites; slicing; caching; right-sizing images.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q11-favicon-statements",
+      "question": "Which are true concerning favicon? Select all that apply. Choices: are usually 32 by 32 pixel images; accompanies the page title in the browser's tab; automatically used on each page found in the folder the favicon is stored in; represents the site or site's parent company.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q12-table-tr",
+      "question": "What do the \"tr\" tags represent? Choices: columns; rows; headers.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q13-table-td",
+      "question": "What do the \"td\" tags represent? Choices: headers; rows; columns.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q14-table-th",
+      "question": "What do the \"th\" tags represent? Choices: rows; headers; columns.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q15-table-colspan",
+      "question": "Which code represents the two merged cells below? The table has a top cell labeled Merged spanning two columns, with rows 1/a and 2/b below. Choices: td rowspan = \"2\"; td rowspan = \"3\"; td colspan = \"2\"; td colspan = \"3\".",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q16-table-rowspan",
+      "question": "Which code represents the three merged cells below? The table has a right-side cell labeled Merged spanning three rows, with rows 1/a, 2/b, and 3/c to its left. Choices: td colspan = \"3\"; td rowspan = \"2\"; td rowspan = \"3\"; td colspan = \"2\".",
+      "course_ids": ["ITSE-1311"]
+    }
+  ]
+}

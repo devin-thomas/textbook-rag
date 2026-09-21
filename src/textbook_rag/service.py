@@ -148,7 +148,7 @@ class QueryService:
             )
             outcome = self.providers.generate(choice, question, retrieval.evidence, scope)
         except ProviderFailure as exc:
-            self.history.append_assistant(
+            assistant_message_id = self.history.append_assistant(
                 conversation_id,
                 text=f"{exc.provider.title()} is temporarily unavailable for this question.",
                 choice=choice,
@@ -158,6 +158,9 @@ class QueryService:
                 failure=exc,
                 retrieval_fallback_used=retrieval.semantic_fallback_used,
             )
+            exc.conversation_id = conversation_id
+            exc.user_message_id = user_message_id
+            exc.assistant_message_id = assistant_message_id
             raise
         assistant_message_id = self.history.append_assistant(
             conversation_id,

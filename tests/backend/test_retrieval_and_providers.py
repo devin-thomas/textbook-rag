@@ -264,6 +264,8 @@ def test_provider_prompt_includes_selected_scope_ids_and_labels() -> None:
     assert "answer text must not contain chunk IDs" in system_prompt
     assert "SELECT ALL THAT APPLY" in system_prompt
     assert "every distinct correct option" in system_prompt
+    assert captured["guided_json"]["required"] == ["status", "answer", "citations"]
+    assert captured["chat_template_kwargs"] == {"enable_thinking": False}
 
 
 def test_removed_catalog_source_is_retired_and_not_retrieved(seeded_database) -> None:

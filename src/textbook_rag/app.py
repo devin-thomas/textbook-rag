@@ -167,6 +167,10 @@ def _api_router(runtime: Runtime) -> APIRouter:
     def list_conversations() -> dict[str, object]:
         return {"conversations": runtime.history.list()}
 
+    @router.get("/question-history")
+    def question_history() -> dict[str, object]:
+        return {"questions": runtime.history.question_history()}
+
     @router.get("/conversations/{conversation_id}")
     def conversation_detail(conversation_id: str) -> dict[str, object]:
         return runtime.history.detail(conversation_id)
@@ -263,6 +267,9 @@ def create_app(runtime: Runtime | None = None) -> FastAPI:
                     "kind": exc.kind,
                     "fallback_used": exc.fallback_used,
                     "initial_failure_kind": exc.initial_failure_kind,
+                    "conversation_id": exc.conversation_id,
+                    "user_message_id": exc.user_message_id,
+                    "assistant_message_id": exc.assistant_message_id,
                 }
             },
         )

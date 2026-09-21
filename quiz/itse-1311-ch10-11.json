@@ -1,0 +1,90 @@
+{
+  "title": "ITSE-1311 Chapters 10 and 11 Quiz",
+  "questions": [
+    {
+      "id": "q01-spacing-tag",
+      "question": "Which tag allows us to automatically add spacing around our content to separate it from the rest of the page? Choices: <p>; <br>.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q02-break-closing-tag",
+      "question": "Does the break tag need a closing tag? Choices: No; Yes.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q03-unordered-list",
+      "question": "Which represents an unordered list? Choices: Letter; Bullet; Roman numeral; Number.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q04-ordered-list-tags",
+      "question": "Which tags are needed to create an ordered list? Select all that apply. Choices: ol; li; dl; ul.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q05-definition-list-tags",
+      "question": "Which tags are used in a definition list? Select all that apply. Choices: dd; dl; li; dt.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q06-contact-information-tag",
+      "question": "Which tag allows us to specify text that has contact information for the content creator, making it easier for applications to find the information needed for tools like mapping and generating references? Choices: Article; Cite; Address; Aside.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q07-reusable-content-tag",
+      "question": "Which tags are meant to be used on content that can be re-used outside of its original site? Choices: Address; Article; Aside; Cite.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q08-image-button-code",
+      "question": "Buttons can have an image or just text. Which code will display one button with an image? Choices: (A) <button type=\"button\">Click Here!</button> <button type=\"button\"><img src=\"ourimage.jpg\"/></button>; (B) <button type=\"button\">Click Here!</button>; (C) <button type=\"button\"><img src=\"ourimage.jpg\"/></button>.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q09-caption-statements",
+      "question": "Which are true concerning captions? Select all that apply. Choices: Allows you to define a label to be printed near the table for reference; Must be after the opening table tag; Intends for it to be used to define the title of a work that is included in the document; You can only have one caption per table.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q10-html-entities",
+      "question": "Which are true of entities in HTML? Select all that apply. Choices: We can call entities by using &[entity name here];; Allows us to label an image, portrait, or other visual art included in an image tag to identify the content as such; They are case sensitive; We can call entities by using &[entity number here];.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    },
+    {
+      "id": "q11-visual-value-image",
+      "question": "Which tag allows us to generate a visual image based on provided values? Choices: Nav; Meter; Progress; Time.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q12-upload-download-status",
+      "question": "Which tag was created to help display the status of an upload or download? Choices: Progress; Time; Meter; Nav.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q13-calendar-reminder-information",
+      "question": "Which tag allows applications on our devices to find information in order to support features like creating calendar entries or reminders based on the information? Choices: Progress; Time; Nav; Meter.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q14-absolute-path",
+      "question": "Is this an absolute path or a relative path? https://www.bing.com. Choices: Relative; Absolute.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q15-target-new-window",
+      "question": "Which attribute value of target will open a linked document in a new window or tab? Choices: _parent; _self; _top; _blank.",
+      "course_ids": ["ITSE-1311"]
+    },
+    {
+      "id": "q16-page-anchor-code",
+      "question": "Which two lines of code are required for anchoring within a page? Select all that apply. Choices: meter; nav; href; name.",
+      "course_ids": ["ITSE-1311"],
+      "select_all_that_apply": true
+    }
+  ]
+}

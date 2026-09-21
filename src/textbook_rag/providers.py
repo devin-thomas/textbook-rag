@@ -13,6 +13,17 @@ from .retrieval import Evidence
 ProviderName = Literal["nvidia", "ollama"]
 ProviderChoice = Literal["auto", "nvidia", "ollama"]
 
+ANSWER_JSON_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "status": {"type": "string", "enum": ["ok", "insufficient_evidence"]},
+        "answer": {"type": "string"},
+        "citations": {"type": "array", "items": {"type": "string"}},
+    },
+    "required": ["status", "answer", "citations"],
+    "additionalProperties": False,
+}
+
 
 class ProviderFailure(RuntimeError):
     def __init__(
@@ -31,6 +42,9 @@ class ProviderFailure(RuntimeError):
         self.retryable = retryable
         self.fallback_used = fallback_used
         self.initial_failure_kind = initial_failure_kind
+        self.conversation_id: str | None = None
+        self.user_message_id: str | None = None
+        self.assistant_message_id: str | None = None
 
 
 class GroundingFailure(ProviderFailure):
@@ -249,6 +263,8 @@ class NvidiaProvider:
                     "messages": _prompt(question, evidence, scope),
                     "temperature": 0.1,
                     "max_tokens": 900,
+                    "guided_json": ANSWER_JSON_SCHEMA,
+                    "chat_template_kwargs": {"enable_thinking": False},
                 },
             )
             response.raise_for_status()
